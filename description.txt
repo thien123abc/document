@@ -1,0 +1,39 @@
+I.icon button thêm mới(+)
+1.Hiển thị 
+* icon button
+-icon button này sử dụng thẻ <button>  là thẻ cha để phục vụ cho việc click vào và xử lý chức năng
+-thẻ <button> này chứa thẻ <img>(thẻ img thực hiện chức năng hiển thị hình ảnh với src chính là plus-icon.png được hàm require import vào từ thư mục assets/images)
+
+*label ‘Tạo chat mới’
+-sử dụng thẻ <div> làm thẻ cha có class=’custom-tooltip’, class này được import từ file _history-screen.scss
+-tạo thẻ <p> là thẻ con trong thẻ <div>, hiển thị text =’Tạo chat mới’
+
+2.State 
+*state showTooltip: kiểu Boolean
+const [showTooltip, setShowTooltip] = useState<boolean>(false)
+-state này để phục vụ cho việc style css về vấn đề show/hide tooltip, nếu true thì sẽ xét css inline trực tiếp trong thuộc tính style của phần tử là display:’flex’ và ngược lại display:’none’
+
+3.Hành động
+*sự kiện cho thẻ button bao gồm onClick, onMouseEnter, onMouseLeave
+- khi di chuột vào icon button sẽ gọi đến callback onMouseEnter và change state showTooltip là true để hiển thị text ‘Tạo chat mới’=> setShowTooltip(true)
+- khi đưa chuột ra khỏi phạm vi icon button sẽ gọi đến callback onMouseLeave và change state showTooltip là false để ẩn text ‘Tạo chat mới’=> setShowTooltip(false)
+-khi click vào icon button sẽ gọi đến hàm callback gotoChat để thực thi hành động, trong hàm gotoChat sẽ sử dụng đến đối tượng history từ hook useHistory() được import từ thư viện react router dom, sau đó gọi đến history.push(‘/’) để điều hướng đến màn hình hội thoại chi tiết
+
+4.Xử lý trường hợp cuộc hội thoại hợp lệ và không hợp lệ
+-Đầu tiên để cho phép người dùng nhập tin nhắn vào ô chat, chúng ta sẽ sử dụng thẻ <textarea>(thẻ này cho phép user nhập nhiều dòng văn bản) có class=’txt-area-content’ được style và import từ file _main-screen.scss, tiếp theo xét thuộc tính placeholder với hint là ‘Nhập prompt…’
+-Sử dụng state textValue được tạo ra từ hook useState() để quản lý và hiển thị nội dung được nhập trong prompt 
+const [textValue, setTextValue] = useState<string>('')
+-Gồm có sự kiện onChange và onKeyDown
+•	onChange: Có tác dụng lắng nghe sự thay đổi trong trường nhập liệu, khi người dùng nhập dữ liệu vào trường đó, hàm này sẽ được gọi và thực thi lệnh setTextValue(e.target.value) để cập nhật giá trị của state textValue.
+•	onKeyDown:
++ Hàm xử lý cho sự kiện khi người dùng nhấn phím (key down).
++Trong hàm này sẽ bắt sự kiện nếu user nhấn phím Enter thông qua tham số event là (event.key===’Enter’) hay không, nếu đúng thì sẽ gọi đến hàm có chức năng call api đến server để tạo và lưu tin nhắn => lúc này được xem là 1 cuộc hội thoại hợp lệ và lưu vào hệ thống
+-Nút send icon đại diện cho nút gửi tin nhắn trong ứng dụng chat
+•	Sử dụng thẻ <button> đại diện cho cho một nút bấm với id=’send-text’ đã được style và import từ file _main-screen.scss
+•	Thẻ <button> chứa thẻ con <img> để hiển thị hình ảnh icon nút gửi send-icon.png với src được import từ assets/images
+•	Khi click vào nút icon gửi này (thẻ <button>) thì sẽ thực thi sự kiện onClick và gọi đến 1 hàm callback có tên là sendMessages với mục đích giống sự kiện khi user nhấn phím enter thì lúc này được xem là 1 cuộc hội thoại hợp lệ và lưu vào hệ thống
+-Nếu trường nhập liệu để trống thì khi user nhấn enter sẽ return false hay nút icon gửi sẽ bị disabled và không thể click vào và lúc này nó được xem là 1 cuộc hội thoại không hợp lệ và không được lưu vào hệ thống
+-Thêm 1 trường hợp khác đó là nếu sau khi user nhập câu hỏi và enter or click nút gửi thì lúc này hệ thống sẽ bắt đầu đưa ra câu trả lời, tuy nhiên nếu trong quá trình hệ thống đang trả lời mà user có nhập thêm thông tin vào trường nhập liệu sau đó enter thì cũng sẽ return false or nút icon gửi cũng phải disabled và phải chờ cho hệ thống trả lời xong câu hỏi trước đó  
+
+
+
