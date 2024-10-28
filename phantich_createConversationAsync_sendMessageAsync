@@ -1,0 +1,284 @@
+import {
+  IVsocApiResult,
+  IVsocCreateConversationArgs,
+  IVsocCreateConversationResult,
+  IVsocGetNextMessageArgs,
+  IVsocGetNextMessageResult,
+  IVsocSendMessageArgs,
+} from './VsocTypes';
+import config from '../env.json';
+
+async function* getAllTextLinesIterator(url: string, options: RequestInit) {
+  const utf8Decoder = new TextDecoder('utf-8');
+  const response = await fetch(url, options);
+  if (!response.body) return;
+  const reader = response.body.getReader();
+  let { value: byteArray, done: readerDone } = await reader.read();
+  let chunk = byteArray ? utf8Decoder.decode(byteArray, { stream: true }) : '';
+
+  const re = /\r\n|\n|\r/gm;
+  let startIndex = 0;
+
+  for (;;) {
+    const result = re.exec(chunk);
+    if (!result) {
+      if (readerDone) {
+        break;
+      }
+      const remainder = chunk.substring(startIndex);
+      ({ value: byteArray, done: readerDone } = await reader.read());
+      chunk = remainder + (byteArray ? utf8Decoder.decode(byteArray, { stream: true }) : '');
+      startIndex = re.lastIndex = 0;
+      continue;
+    }
+    yield chunk.substring(startIndex, result.index);
+    startIndex = re.lastIndex;
+  }
+  if (startIndex < chunk.length) {
+    // last line didn't end in a newline char
+    yield chunk.substring(startIndex);
+  }
+}
+
+interface IDifyMessageData {
+  title?: string;
+}
+
+interface IDifyMessage {
+  event: string;
+  conversation_id: string;
+  message_id: string;
+  title?: string;
+  answer?: string;
+  created_at: number;
+  data?: IDifyMessageData;
+  [key: string]: unknown;
+}
+
+interface IConversationHub extends Record<string, IMessageQueue[]> {}
+interface IMessageQueue extends IVsocGetNextMessageResult {}
+
+const conversationHub: IConversationHub = {};
+let bot_token: string = '';
+
+const fetchAccessToken = async (reject: ResolveFunction, force = false) => {
+  try {
+    if (bot_token && !force) return;
+
+    if (!force) {
+      bot_token = localStorage.bot_token;
+      if (bot_token) return;
+    }
+
+    const response = await fetch(config.vsoc_api_url + '/api/passport', {
+      method: 'GET',
+      headers: {
+        'X-App-Code': config.bot_app_code,
+      },
+    });
+    const body = await response.json();
+    bot_token = body.access_token;
+    localStorage.bot_token = bot_token;
+
+    if (!bot_token) {
+      const ex = new Error('Unable to get passport token');
+      console.error(ex);
+      reject(ex);
+    }
+  } catch (ex) {
+    console.error(ex);
+    reject(ex);
+  }
+};
+
+const parseDifyMesssage = (line: string): IDifyMessage | undefined => {
+  if (!line || !line.startsWith('data:')) return undefined;
+  try {
+    const evt = JSON.parse(line.substring(5)) as IDifyMessage;
+    if (!evt || typeof evt !== 'object') return undefined;
+    return evt;
+  } catch (e) {
+    return undefined;
+  }
+};
+
+type ResolveFunction = (reason?: any) => void;
+
+const markDifyResponseEnd = (conversationId: string, lastRoleInMessage: string, reject?: ResolveFunction) => {
+  if (reject) return;
+  const msg: IMessageQueue = {
+    action: 'DONE',
+    type: 'break_paragraph',
+    conversation_id: conversationId,
+    time: new Date().getTime(),
+    role: lastRoleInMessage,
+    message: '',
+  };
+  conversationHub[conversationId].push(msg);
+  console.log('received finnal message: ', msg);
+};
+
+type RoleInfo = {
+  currentRole: string;
+  lastRoleInMessage: string;
+};
+
+const extractRole = (evt: IDifyMessage, roleInfo: RoleInfo) => {
+  if (evt.data?.title?.charAt(0) == '[') {
+    const m = evt.data.title.match(/^\[([^\]]+)\]/);
+    if (m?.[1]) {
+      roleInfo.currentRole = m[1];
+    }
+  }
+
+  if (evt.event != 'message' || !evt.answer || config.ignore_roles.includes(roleInfo.currentRole)) {
+    return false;
+  }
+  return true;
+};
+
+const connectToBotAsync = (arg: IVsocCreateConversationArgs | IVsocSendMessageArgs) => {
+  return new Promise<IVsocApiResult<IVsocCreateConversationResult>>(async (resolve, reject) => {
+    let conversationId = '';
+    const roleInfo: RoleInfo = {
+      currentRole: '',
+      lastRoleInMessage: '',
+    };
+    let fnReject: ResolveFunction | undefined = reject;
+
+    await fetchAccessToken(reject);
+
+    try {
+      const fetchUrl = config.vsoc_api_url + '/api/chat-messages';
+      const fetchOptions = {
+        method: 'POST',
+        body: JSON.stringify({
+          response_mode: 'streaming',
+          conversation_id: (arg as IVsocSendMessageArgs).conversation_id ?? '',
+          query: arg.text,
+          inputs: {},
+        }),
+        headers: {
+          Authorization: Bearer ${bot_token},
+          'Content-Type': 'application/json',
+        },
+      };
+
+      for await (const line of getAllTextLinesIterator(fetchUrl, fetchOptions)) {
+        const evt = parseDifyMesssage(line);
+        if (!evt) continue;
+        if (!conversationId && evt.conversation_id) {
+          fnReject = undefined;
+          conversationId = evt.conversation_id;
+          if (!(conversationId in conversationHub)) {
+            console.log('Created conversation ', conversationId);
+            conversationHub[conversationId] = [];
+          }
+          resolve({
+            status: 0,
+            result: {
+              action: 'WAIT',
+              conversation_id: conversationId,
+            },
+          });
+        }
+
+        if (!extractRole(evt, roleInfo)) continue;
+
+        const msg: IMessageQueue = {
+          action: 'WAIT',
+          type: 'text', //paragraphType,
+          conversation_id: conversationId,
+          time: new Date().getTime(),
+          role: roleInfo.currentRole,
+          message: evt.answer as string,
+        };
+        conversationHub[conversationId].push(msg);
+        console.log('received message: ', msg);
+        roleInfo.lastRoleInMessage = roleInfo.currentRole;
+      }
+    } catch (ex) {
+      console.error(ex);
+      fnReject?.(ex);
+    } finally {
+      markDifyResponseEnd(conversationId, roleInfo.lastRoleInMessage, fnReject);
+    }
+  });
+};
+
+export const createConversationAsync = (arg: IVsocCreateConversationArgs) => connectToBotAsync(arg);
+
+export const sendMessageAsync = (arg: IVsocSendMessageArgs) => connectToBotAsync(arg);
+
+export const getNextMessageAsync = (arg: IVsocGetNextMessageArgs) => {
+  return new Promise<IVsocApiResult<IVsocGetNextMessageResult>>((resolve) => {
+    if (!arg.conversation_id || !(arg.conversation_id in conversationHub)) {
+      throw new Error(conversation_id ${arg.conversation_id} is not found);
+    }
+    const queue = conversationHub[arg.conversation_id];
+    let message = queue.shift();
+    if (!message)
+      message = {
+        conversation_id: arg.conversation_id,
+        action: 'WAIT',
+        message: '',
+        time: new Date().getTime(),
+        type: 'text',
+        role: '',
+      };
+    resolve({
+      status: 0,
+      result: message,
+    });
+  });
+};
+
+
+tôi sẽ phân tích code trên 
+đầu tiên trong hàm connectToBotAsync thì hàm này mục đích là để gửi câu hỏi lên server sau đó server sẽ trả về data trả lời câu hỏi 
+await fetchAccessToken(reject);
+
+    try {
+      const fetchUrl = config.vsoc_api_url + '/api/chat-messages';
+      const fetchOptions = {
+        method: 'POST',
+        body: JSON.stringify({
+          response_mode: 'streaming',
+          conversation_id: (arg as IVsocSendMessageArgs).conversation_id ?? '',
+          query: arg.text,
+          inputs: {},
+        }),
+        headers: {
+          Authorization: Bearer ${bot_token},
+          'Content-Type': 'application/json',
+        },
+      };
+cơ bản chỉ là yêu cầu access token cho bot có thể truy cập vào hệ thống
+và gửi request đến api chat-messages với body là chế độ streaming, query chính là câu hỏi gửi lên,
+
+tiếp theo dùng đến for await ...of để gọi đến hàm async generator getAllTextLinesIterator truyền vào url và option
+trong hàm này sẽ tạo 1 đối tượng utf8Decoder để giải mã 
+vì const response = await fetch(url, options); nó trả ra các trường như status,headers, type,body và riêng body nó có kiểu ReadableStream cho nên cần gọi đến method getReader() nó sẽ trả ra một đối tượng ReadableStreamDefaultReader nên sau đó cần phải gọi tiếp đến method read() và method này trả về 1 promise chính là object {value,done}
+tuy nhiên value nó có kiểu là 1 mảng các byte nên ta cần decode ra bằng utf8Decoder và sẽ trả về cho biến chunk và lúc này ta thấy nó sẽ có dạng: "data: {\"event\": \"workflow_started\", \"conversation_id\": \"241d29dc-5fd7-41a5-89b3-1a26eec6f2b4\", \"message_id\": \"e583fbc8-8ba9-41d2-86a3-90ea753daa4b\", \"created_at\": 1730114581, \"task_id\": \"022c4b85-7643-4743-a99d-79e798279813\", \"workflow_run_id\": \"b4e190a4-bba9-49d0-b5a6-c20a13e7810b\", \"data\": {\"id\": \"b4e190a4-bba9-49d0-b5a6-c20a13e7810b\", \"workflow_id\": \"3d1070c7-a5f1-45c8-b11e-d459810c60ea\", \"sequence_number\": 3591, \"inputs\": {\"sys.query\": \"l\\u00f4\", \"sys.files\": [], \"sys.conversation_id\": \"241d29dc-5fd7-41a5-89b3-1a26eec6f2b4\", \"sys.user_id\": \"b770711a-9b87-429d-8c91-19647f129639\", \"sys.dialogue_count\": 0, \"sys.app_id\": \"5bface6f-c93f-40c6-abf9-e66f6495733c\", \"sys.workflow_id\": \"3d1070c7-a5f1-45c8-b11e-d459810c60ea\", \"sys.workflow_run_id\": \"b4e190a4-bba9-49d0-b5a6-c20a13e7810b\"}, \"created_at\": 1730114581}}\n\ndata: {\"......
+
+tiếp đến tạo 1 biến regex re=/\r\n|\n|\r/gm có nghĩa là để tìm kiếm kí tự \n newline trong chuỗi(nó dc áp dụng cho chrome, eadge,...)
+hàm for này là lặp vô tận, đầu tiên const result = re.exec(chunk); nó kiểm tra trong chunk có chứa dấu \n và nó sẽ trả về vị trí tìm thấy ký tự \n đầu tiên trong chuỗi và sau đó biến result sẽ là 1 mảng gồm các phần tử ['\n',index:vị trí tìm thấy \n đầu tiên,....] sau đó yield chunk.substring(startIndex, result.index); tức là nó sẽ cut chuỗi chunk từ vị trí 0 đến index để lấy ra dc chuỗi từ đầu cho đến trước dấu \n và do yield nên đoạn này sẽ trả về 1 promise là 1 object có value chính là chuỗi đã cut đó và done là false sau đó nó sẽ tạm ngưng hàm getAllTextLinesIterator và sẽ chạy vào for await of thì lúc này do tính chất của for await of là sẽ nhận về resolve từ promise chính là object đó nhưng lại có of nên nó chỉ lấy về value chứ k lấy done, tiếp theo nó gửi value đặt tên là line cho hàm parseDifyMessage(line)
+trong hàm này đầu tiên nó kiểm tra xem nếu ko có line or line ko bắt đầu bằng chuỗi data: thì return undefined còn ko thì sẽ parse giải mã chuỗi json line đó ra và trước khi giải thì substring là cắt 5 kí tự đầu sẽ là bỏ đi chuỗi 'data:' và sẽ trả về 1 object có các trường như 
+{
+event: string;
+  conversation_id: string;
+  message_id: string;
+  title?: string;
+  answer?: string;
+  created_at: number;
+}
+ban đầu ta sẽ khỏi tạo 1 biến conversationId có giá trị '', lúc này sau khi đã giải mã được line và lấy về được evt từ line sau khi giải mã ta sẽ kiểm tra nếu chưa có conversationId và evt.conversation_id thì gán conversationId=evt.conversationId, mục đích của việc khai báo biến let conversationId là do ban đầu khi ta mới bắt đầu câu hỏi thì lúc này ta cần tạo ra 1 cuộc hội thoại mới để lưu lại tin nhắn mà ta vừa hỏi, thì từ lần sau khi ta hỏi hay nhắn tin khác thì lúc đó ta đã biết là biến conversationId nãy đã tồn tại và các tin nhắn sau đó sẽ đều thuộc cuộc hội thoại này 
+tiếp theo khai báo 1 biến const conversationHub là 1 object với key là các conversationId và value chính là 1 mảng các tin nhắn tương ứng thuộc conversionId đó, tức là biến conversionHub nó lưu trữ lại nhiều cuộc hội thoại
+Tiếp đến hàm extractRole để xuất ra vai trò, nó kiểm tra xem evt có chưa data và trong data có chứa title và có bắt đầu bằng kí tự '[' hay ko, nếu có thì sẽ check với biểu thức regex
+const m = evt.data.title.match(/^\[([^\]]+)\]/); có nghĩa là tìm tất cả giá trị nằm trong cặp dấu [] và sẽ trả về cho biến m là 1 mảng có 2 phần tử, phần tử 1 chính là chuỗi "[nội dung trong cặp này]" và phần tử 2 là chuỗi nằm trong cặp [] nên lúc này mới kiểm tra xem có m[1] hay ko, nếu có thì gán vai trò hiện tại currentRole=m[1]
+tiếp theo sẽ kiểm tra nếu evt có event ko phải message, ko có answer, vai trò ko thuộc mảng đã config trong .env thì return false để cho nó continue qua vòng lặp hiện tại này và sẽ ko chạy các đoạn code ở dưới, còn nếu mà trong extractRole mà evt nó có message, nó có answer thì sẽ tạo ra 1 đối tượng chính là 1 message có các thông tin như type, conversationId,time,message sau đó ta sẽ lưu vào conversationHub
+đó là xem như xong lần lặp đầu tiên, tiếp theo vì for await of nó sẽ lặp mãi cho đến khi nào mà yield trả về done là true thì mới dừng nên lúc này nó tiếp tục tự động gọi đến .next() để chạy và sẽ tiếp tục chạy dòng startIndex = re.lastIndex; tức là gán lại startIndex, re.lastIndex chính là vị trí sau cái vị trí đã tìm thấy ký tự \n, sau đó vì là for vô tận nên lại quay lên chạy kiểm tra const result = re.exec(chunk);....
+nó cứ chạy như vậy cho đến cuối chunk thì ví dụ chunk nó có độ dài là 100 nhưng sau đó startIndex = re.lastIndex; thì startIndex sẽ dc gán =101 và lúc này yield nó vẫn trả ra value là rỗng và done là false, vì for lặp vô tận nên yield mãi mãi có done là false
+khi startIndex=101 và quay lên chạy  const result = re.exec(chunk); thì lúc này chunk ko còn gì nữa nên result là null thì nó chạy vào lệnh if(!result) nhưng lúc này readerDone vẫn là false nên sẽ bỏ qua và chạy xuống const remainder = chunk.substring(startIndex); thì lúc này do startIndex=101 mà chunk chỉ có tối đa 100 nên remainder là '', tiếp theo ({ value: byteArray, done: readerDone } = await reader.read()); thì vì ko còn gì nữa nên readerDone là true tức là đọc hết dữ liệu rồi và byteArray là undefined nên  chunk = remainder + (byteArray ? utf8Decoder.decode(byteArray, { stream: true }) : ''); sẽ trả ra chuỗi ''
+sau đó đặt lại cho  startIndex = re.lastIndex về 0; và continue để khỏi chạy các lệnh dưới, xong nó lại lặp lại và check  const result = re.exec(chunk); sẽ là null và kiểm tra là !result rồi vào kiểm tra readerDone là true thì sẽ break thoát khỏi vòng lặp vô tận này, sau đó nó chạy xuống check nếu startIndex<chunk.length thì do startIndex=0 và chunk.length=0 nên ko chạy vào trong nữa thì lúc này khi ko còn yield nữa thì for await...of nó cũng sẽ dừng do lúc này done là true và value là  undefined rồi
+Vậy lúc này ta đã lưu được các tin nhắn gồm câu hỏi do user hỏi và bot trả lời vào 1 trong 1 cuộc hội thoại
