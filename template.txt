@@ -1,0 +1,1981 @@
+ 
+1.1.1.1.1.1.1	TẬP ĐOÀN CÔNG NGHIỆP - VIỄN THÔNG QUÂN ĐỘI VIETTEL
+CÔNG TY AN NINH MẠNG VIETTEL
+
+
+
+ 
+BIỂU MẪU
+TÀI LIỆU ĐẶC TẢ THIẾT KẾ CHI TIẾT
+
+
+Mã hiệu dự án:
+Mã hiệu tài liệu:
+
+
+
+
+
+
+
+<Địa điểm, Thời gian>
+BẢNG GHI NHẬN THAY ĐỔI TÀI LIỆU
+*A – Tạo mới, M – Sửa đổi, D – Xóa bỏ
+Ngày thay đổi	Vị trí thay đổi	Nguồn gốc	Phiên
+bản cũ	Mô tả thay đổi	Phiên
+bản mới
+26/092024					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+
+TRANG KÝ
+
+
+Người lập:			<Ngày>	
+	<Chức danh>	
+
+
+
+Người xem xét:			<Ngày>	
+	<Chức danh>	
+
+
+
+Người xem xét:			<Ngày>	
+	<Chức danh>
+
+
+
+Người phê duyệt:			<Ngày>	
+	<Chức danh>
+
+		
+MỤC LỤC
+1.	GIỚI THIỆU	6
+1.1	Mục đích	6
+1.2	Phạm vi	6
+1.3	Khái niệm, thuật ngữ	6
+1.4	Tài liệu tham khảo	6
+1.5	Mô tả tài liệu	6
+2.	TỔNG QUAN GIẢI PHÁP	7
+2.1	Tổng quan chức năng	7
+2.2	Mô hình tổng thể về kiến trúc của giải pháp	7
+3.	THIẾT KẾ CHI TIẾT	8
+3.1	THIẾT KẾ CHI TIẾT KIẾN TRÚC	8
+3.1.1	Kiến trúc component A	8
+3.1.2	Kiến trúc component B	8
+3.2	THIẾT KẾ CHI TIẾT NGHIỆP VỤ	8
+3.2.1	Thiết kế phân hệ A	8
+4.	THIẾT KẾ CƠ SỞ DỮ LIỆU	10
+4.1.1	Mô hình dữ liệu	10
+4.1.2	Chi tiết các bảng CSDL	11
+4.1.3	Constraint	11
+4.1.4	Index	11
+4.1.5	Trigger	11
+4.1.6	Store Procedure/Function	11
+5.	THIẾT KẾ DÙNG CHUNG VÀ TÁI SỬ DỤNG	12
+6.	THIẾT KẾ ĐẢM BẢO TUÂN THỦ TIÊU CHUẨN QUẢN TRỊ DỮ LIỆU	12
+6.1	Quản trị dữ liệu	12
+6.2	Bảo mật dữ liệu	13
+6.3	Chất lượng dữ liệu	14
+6.4	Quản lý siêu dữ liệu	17
+6.4.1	Thông tin đối tượng dữ liệu	17
+6.4.2	Thông tin hệ thống	18
+6.4.3	Thông tin luồng dữ liệu	18
+6.4.4	Thông tin thuật ngữ nghiệp vụ	19
+6.5	Lưu trữ và vận hành	19
+7.	THIẾT KẾ CÁC YẾU TỐ PHI CHỨC NĂNG	20
+7.1	Hiệu năng	20
+7.2	Mức độ tin cậy và Tính sẵn sàng của hệ thống	20
+7.3	Khả năng bảo trì	20
+7.4	An toàn bảo mật và đảm bảo tính riêng tư	20
+7.5	Khả năng hỗ trợ đa ngôn ngữ	21
+7.6	Các yếu tố khác	21
+8.	THIẾT KẾ CẤU HÌNH VÀ ĐÓNG GÓI VẬT LÝ	21
+8.1	Thiết kế cấu hình	21
+8.2	Thiết kế đóng gói	21
+9.	PHỤ LỤC	21
+ 
+1.	GIỚI THIỆU
+N/A
+1.1	Mục đích
+N/A
+1.2	Phạm vi
+N/A
+1.3	Khái niệm, thuật ngữ
+N/A
+1.4	Tài liệu tham khả
+N/A
+1.5	Mô tả tài liệu
+N/A
+2.	TỔNG QUAN GIẢI PHÁP
+2.1	Tổng quan chức năng
+N/A
+2.2	Mô hình tổng thể về kiến trúc của giải pháp
+N/A
+3.	THIẾT KẾ CHI TIẾT
+3.1	THIẾT KẾ CHI TIẾT KIẾN TRÚC
+N/A
+3.2	THIẾT KẾ CHI TIẾT NGHIỆP VỤ
+3.2.1	Thiết kế chức năng quản lý báo cáo chung
+3.2.1.1	Thiết kế chức năng tìm kiếm báo cáo
+3.2.1.1.1	Thông tin chung về chức năng
+Mục tiêu	Cho phép người dùng quản lý báo cáo đang có trên hệ thống. Cho phép tìm kiếm báo cáo
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND vào menu Report
+Pre-condition	ND đăng nhập thành công.
+ND có quyền xem báo cáo
+Post-condition	Hiển thị danh sách báo cáo đang có trên hệ thống, cho phép tìm kiếm
+
+
+
+
+
+
+
+
+
+
+
+3.2.1.1.2	Luồng nghiệp vụ
+ 
+
+
+
+
+
+
+
+
+3.2.1.1.3	Thiết kế giao diện
+ 
+Mô tả chi tiết từng thành phần trong giao diện theo form
+
+STT	Tên	Kiểu dữ liệu 
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+	Điều kiện tìm kiếm và vùng thao tác
+1.		Search	Search bar	Input		-	Cho phép tìm kiếm báo cáo có tên chứa từ khóa tìm kiếm. 
+-	Mặc định để trắng. Placeholder "Search report by title"
+-	Không bắt buộc nhập
+-	Điều kiện nếu nhập:
+-	Tìm kiếm tương đối, không phân biệt viết hoa và viết thường, phân các biệt dấu thanh Việt Nam 
+-	Độ dài tối đa 200 ký tự
+-	Chỉ cho phép chữ viết hoa, viết thường, số, "_" và dấu khoảng cách
+2.		Chọn khung thời gian/Report timeframe	Dropdow list	Input		-	Cho phép chọn khoảng thời gian để tìm kiểm báo cáo phù hợp
+-	Placeholder: Report timeframe
+-	Không bắt buộc nhập
+-	(Điều kiện nếu nhập xem chi tiết tại Chi tiết chọn khung thời gian)
+
+3.		Thời gian tạo báo cáo/Created time	Date 	Input		-	Cho phép người dùng tìm kiếm báo cáo trong khoảng thời gian báo cáo đã lập
+-	Placeholder: Created time
+-	Không bắt buộc nhập
+-	Điều kiện nếu nhập: giống điều kiện khi nhập Report timeframe
+4.		Người tạo/Created by	Dropdow list	Input		-	Cho phép người dùng tìm kiếm report theo tên người tạo
+-	Placeholder: Created by
+-	Không bắt buộc nhập
+-	Hiển thị tất cả người trong hệ thống, Multi selection và có thể type text tìm kiếm
+-	
+5.		Tạo báo cáo mới/ New Report	Dropdow list	Input		-	Cho phép người dùng tạo báo cáo mới
+-	List báo cáo có 4 loại: Host Coverage, User coverage, Content coverage và Content Quality.
+-	Chỉ chọn 1 
+	Kết quả tìm kiếm
+Hiển thị theo thứ tự Tên báo cáo theo quy tắc Ascending theo trường Report Title  
+Mặc định khi không có điều kiện tìm kiếm: hiện tất cả
+Phân trang dạng scroll
+6.		Tổng số lượng báo cáo	Label	Output		-	Hiển thị tổng số báo cáo phù hợp theo yêu cầu tìm kiếm 
+-	Format: (tổng số lượng báo cáo đang có) + Reports
+7.		Tên báo cáo/ Report title	Label	Output		-	Hiển thị tên báo cáo 
+-	Có sort theo quy tắc alphabet
+8.		Khoảng thời gian/ Timeframe	Label	Output		Hiển thị khoảng thời của báo cáo
+Có sort theo start date
+Quy tắc hiển thị BC nếu chọn theo Start Date- End Date:
+-	Chỉ hiển thị báo cáo trong khoảng Timeframe (tính cả start date & End date)
+9.		Người tạo/Created by	Label	Output		-	Hiển thị tên người tạo
+-	Có sort theo quy tắc alphabet
+10.		Thời gian tạo báo cáo/Created time	Label	Output		-	Hiển thị thời gian đã tạo báo cáo
+-	Có sort theo thời gian
+•	Chi tiết chọn khung thời gian
+ 
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1.		Chọn nhanh/ Quick	Dropdown list	Input		-	Cho phép người dùng tùy chỉnh thời gian theo quãng thời gian được thiết lập sẵn
+-	Chỉ được chọn 1
+-	Hiển thị mặc định tab Quick khi người dùng chọn vào Report timefame/ icon lịch 
+
+
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1.		Timeframe	Date	Input	Hiển thị tại ngày đang tìm kiếm.
+Start_date = End_date 
+Kết quả tìm kiếm sẽ lấy từ 00:00:00 của ngày hiện tại đến thời điểm tìm kiếm.
+	-	Cho phép người dùng tùy chỉnh thời gian theo quãng thời gian được thiết lập sẵn
+-	Chỉ được chọn 1
+-	Hiển thị mặc định tab Quick khi người dùng chọn vào Report timefame/ icon lịch 
+2.		Ngày bắt đầu báo cáo	Date picker	Input		-	Hiển thị start date người dùng đã chọn bên dưới
+Format: DD/MM/YYYY
+
+3.		Ngày kết thúc báo cáo	Date picker	Input		-	Hiển thị start date người dùng đã chọn bên dưới
+Format: DD/MM/YYYY
+4.	 	Bảng lịch	Date picker	Input		-	Cho phép người dùng tự chọn ngày tháng năm
+5.		Cancel	Button	Input		-	Nút hủy bỏ
+-	Bấm để hủy chọn ngày và đóng bảng lịch
+6.		Apply	Button	Input		-	Nút áp dụng
+-	Bấm để áp dụng ngày đã chọn
+
+3.2.1.1.4	Thiết kế API 
+a.	API LIST REPORT
+o	Biểu đồ tuần tự: 
+ 
+
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	LIST REPORTS	/api/report/report-detail	{
+    "from": "2023-01-01",
+    "to": "2024-01-01",
+    "createdBy": "string",
+    "createdAt": "2024-01-01",
+    "search": "test",
+    "fromCreatedAt": "2024-01-01",
+    "toCreatedAt": "2024-01-01",
+    "skip": 1,
+    "limit": 10
+}
+	{
+    "status": "KB. Success",
+    "total": 1,
+    "limit": 10,
+    "skip": 1,
+    "data": 
+    [
+        {
+            "status": 1,
+            "creator": "admin",
+            "startTime": "2023-01-01T00:00:00.000Z",
+            "endTime": "2023-01-01T00:00:00.000Z",
+            "_id": "66fe3e220b5951b674a8ca7a",
+            "name": "test 124",
+            "description": "description",
+            "groupCode": "RO01",
+            "reportItem": [
+                {
+                    "_id": "66fe3e220b5951b674a8ca7b",
+                    "name": "behavior_loss_percentage",
+                    "values": {
+                        "type": "behavior_loss_percentage",
+                        "limit": 10,
+                        "entities": [
+                            "Host"
+                        ],
+                        "sort": "asc",
+                        "sortBy": "loss",
+                        "products": [],
+                        "behaviors": [],
+                        "loss_threshold": 0.8
+                    }
+                }
+            ],
+            "created_at": "2024-10-03T06:48:02.336Z",
+            "last_update": "2024-10-03T06:48:02.336Z",
+            "__v": 0
+        }
+    ]
+}
+o	Chi tiết luồng xử lý API
+	Bước 1: Kiểm tra quyền thực hiện chức năng: report:view
+	Bước 2: Lấy thông tin input từ request. Thực hiện validate input theo SRS
+•	Time range: Time from phải nhỏ hơn Time to, 
+•	Time range, created date : đúng format DD/MM/YYYY
+•	Title: nếu khác rỗng thì cần trim space đầu cuối
+	Bước 3: 
+•	Thực hiện query dữ liệu trong DB thông qua tầng model.
+•	Thực hiện đếm tổng số bản ghi có trong DB cho việc paging
+	Bước 4: Trả dữ liệu ra cho client
+3.2.1.2	Thiết kế chức năng thêm mới báo cáo
+3.2.1.2.1	Thông tin chung về chức năng
+Mục tiêu	Cho phép người dùng được phép thêm mới báo cáo theo mẫu đã có sẵn
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND nhấn Thêm mới báo cáo theo mẫu
+Pre-condition	ND đăng nhập thành công.
+Truy cập thành công vào màn Quản lý báo cáo
+ND có quyền tạo báo cáo, xem báo cáo
+Post-condition	Hiển thị màn hình thêm mới báo cáo.
+
+3.2.1.2.2	Luồng nghiệp vụ
+ 
+
+
+
+
+
+
+
+
+
+
+
+3.2.1.2.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1. 	Tên báo cáo	Label	Output	Tên loại mẫu báo cáo + timestamp	-	Hiển thị tên báo cáo. 
+2.	"Edit"	Button	Input		-	Cho phép người dùng thay đổi tên báo cáo 
+-	ND có thể đổi tên báo cáo khi click vào space của tên báo cáo hoặc edit button
+-	ĐK đổi tên:
+o	Không được để trống→ Nếu không thông báo lỗi "Name is requied"
+o	Tên báo cáo không được nhập trùng với báo cáo đã có của hệ thống =>Nếu không thông báo lỗi: "Name already exist"
+o	Tối đa 200 ký tự nếu quá sẽ hiện cảnh báo "Name must be less than 200 characters" 
+o	Chỉ cho phép chữ viết hoa, viết thường, số, "_" và dấu khoảng cách nếu xuất hiện các kí tự không cho phép hiện cảnh báo "Name only allow a-z, A-Z, numbers, _ and space
+3. 	Timeframe 	Date picker	Input	Hiển thị tại ngày đang tìm kiếm 	-	Cho phép người dùng cài đặt thời gian của báo cáo
+-	Phải có cả start date và End date
+-	Điều kiện giống điều kiện khi nhập Timeframe-Custom tại tìm kiếm
+4.	Cancel	Button	Input		-	Nút hủy bỏ
+-	Bấm để hủy tạo báo cáo mới và quay về trang trước
+5.	Create Report	Button	Input		-	Nút tạo báo cáo mới
+-	Bấm nút để tạo báo cáo→ Hiển thị toast message "Create new report successfully"
+
+
+-	Chi tiết luồng xử lý trên giao diện
+ 
+o	Gọi API LIST CATEGORY REPORT để lấy danh sách các loại report có trong hệ thống mà người dung có thể tạo 
+o	Fill dữ liệu vào dropdown list , khi người dung ấn button New Report thì hiện thị danh sách trên 
+o	Khi chuyển sang trang create report, thực hiện lấy các cấu hình mặc định của các report mặc định trong loại report đã chọn. Call vào api lấy dữ liệu báo cáo cho từng item 
+o	thực hiện tự động sinh tên báo cáo theo SRS, sinh time range mặc định theo SRS
+o	Nhấn Create report để call api tạo mới report
+3.2.1.2.4	Thiết kế API
+a.	API CREATE REPORT
+o	Biểu đồ tuần tự: 
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	CREATE REPORTS	Method : POST
+/api/report/report-detail	{
+    "startTime": "2023-01-01",
+    "endTime": "2023-01-01",
+    "reportItems": [
+        {
+            "type": "behavior_loss_percentage",
+            "limit": 10,
+            "entities": ["Host"],
+            "sort": "asc",
+            "sortBy": "loss",
+            "products": [],
+            "behaviors": [],
+            "loss_threshold": 0.8
+        }
+    ],
+    "name": "test 124",
+    "description": "description",
+    "groupCode": "RO01",
+    "creator": "admin"
+}
+	{
+    "status": "KB. Success",
+    "data": {
+        "status": 1,
+        "creator": "admin",
+        "startTime": "2023-01-01T00:00:00.000Z",
+        "endTime": "2023-01-01T00:00:00.000Z",
+        "_id": "66fe3e220b5951b674a8ca7a",
+        "name": "test 124",
+        "description": "description",
+        "groupCode": "RO01",
+        "reportItem": [
+            {
+                "_id": "66fe3e220b5951b674a8ca7b",
+                "name": "behavior_loss_percentage",
+                "values": {
+                    "type": "behavior_loss_percentage",
+                    "limit": 10,
+                    "entities": [
+                        "Host"
+                    ],
+                    "sort": "asc",
+                    "sortBy": "loss",
+                    "products": [],
+                    "behaviors": [],
+                    "loss_threshold": 0.8
+                }
+            }
+        ],
+        "created_at": "2024-10-03T06:48:02.336Z",
+        "last_update": "2024-10-03T06:48:02.336Z",
+        "__v": 0
+    }
+}
+
+o	Chi tiết luồng xử lý API 
+	Bước 1: Lấy dữ liệu đầu vào từ request. Thực hiện validate các thông tin theo SRS
+•	Title: bắt buộc nhập
+•	Kiểm tra title không được trùng với report đã có trong DB
+•	Title có độ dài tối đa 200 kí tư
+•	Title chỉ cho phép chữ viết hoa, viết thường, số, "_" và dấu khoảng cách
+•	Time- Frame: bắt buộc nhập, Time from phải nhỏ hơn Time to
+Trả lại lỗi tương ứng cho client nếu không đáp ứng các yêu cầu trên
+	Bước 2: Thực hiện lưu các cấu hình vào bảng trong DB. Trả về kết quả thực hiện cho client
+	
+b.	API LIST GROUP
+o	Biểu đồ tuần tự:
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	LIST CATEGORY REPORT	/api/report/report-group		{
+    "status": "KB. Success",
+    "result": 4,
+    "data": 
+    [
+        {
+            "_id" : "66fa2dbbd920bb0794c5ccb9",
+            "name" : "Host Coverage",
+            "code" : "RG01",
+            "description" : "Host Coverage",
+            "status" : 1,
+            "__v" : 0,
+            "order" : 1
+        },
+        {
+            "_id" : "66fa2f3e9a27ab8d30782856",
+            "name" : "Content Coverage",
+            "code" : "RG02",
+            "description" : "Content Coverage",
+            "status" : 0,
+            "__v" : 0,
+            "order" : 4
+        },
+        {
+            "_id" : "66fa2f459a27ab8d30782858",
+            "name" : "Content Quality",
+            "code" : "RG03",
+            "description" : "Content Quality",
+            "status" : 0,
+            "__v" : 0,
+            "order" : 3
+        },
+        {
+            "_id" : "66fa2f4f9a27ab8d3078285a",
+            "name" : "User Coverage",
+            "code" : "RG04",
+            "description" : "User Coverage",
+            "status" : 1,
+            "__v" : 0,
+            "order" : 2
+        }
+    ]
+}
+
+
+o	Chi tiết luồng xử lý
+	Truy vấn trong bảng report group những bản ghi có status = 1
+	Truy vấn trong bảng report item theo list report group id
+	Mapping dữ liệu theo group trả về cho client
+c.	API CHECK NAME
+o	Biểu đồ tuần tự:
+o	Mô tả đầu vào , đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	CHECK NAME REPORT	/api/report/validate-name-report	{
+    "id": null,
+    "name": "test124"
+}
+	{
+    "status": "KB. Success",
+    "data": false
+}
+
+o	Chi  tiết luồng xử lý
+	Validate đầu vào:
+•	Kiểm tra bắt buộc nhập với tham số tên báo cáo
+	Query trong bảng report_detail với tên báo cáo. Nếu is_create = false, lọc thêm điều kiện report_detail_id khác param truyền vào
+	Trả về kết quả tương ứng với kết quả kiểm tra trong câu query
+3.2.1.3	Thiết kế chức năng sửa báo cáo
+3.2.1.3.1	Thông tin chung về chức năng
+
+Mục tiêu	Chức năng giúp user cập nhật báo cáo của mình đã tạo
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND nhấn vào BC đã được khởi tạo tại màn hình QLBC
+Pre-condition	ND đăng nhập thành công.
+Truy cập thành công vào màn Quản lý báo cáo
+ND có quyền sửa báo cáo(report:edit hoặc report:edit_owner)
+ND là người tạo ra báo cáo đang sửa
+Post-condition	Thực hiện chỉnh sửa báo cáo thành công trong danh sách
+
+3.2.1.3.2	Luồng nghiệp vụ
+ 
+3.2.1.3.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1. 	Tên báo cáo	Label	Output	Tên loại mẫu báo cáo + timestamp	-	Cho phép người dùng chỉnh sửa tên báo cáo
+-	Điều kiện giống điều kiện edit tên báo cáo khi tạo báo cáo mới
+2.3. 	Timeframe 	Date picker	Input	Hiển thị tại ngày đang tìm kiếm 	-	Cho phép người dùng chỉnh sửa timeframe
+
+
+-	Chi tiết luồng xử lý trên giao diện 
+ 
+o	Kiểm tra người dùng có quyền edit báo cáo không. Nếu không chỉ hiện tại dạng read-only
+o	 Kiểm tra người dùng có là người tạo báo cáo  bằng trường created_by không. 
+	Nếu không chỉ hiển thị dạng read-only
+	Nếu có quyền chỉnh sửa hiển thị dạng editable page
+o	 Gọi API GET REPORT BY ID 	để lấy report theo Id 
+3.2.1.3.4	Thiết kế API
+a.	API GET REPORT BY ID
+o	Biểu đồ tuần tự
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	API GET REPORT BY ID	Method: GET
+/api/report/report-detail/<id>		{
+    "status": "KB. Success",
+    "data": {
+        "status": 1,
+        "creator": "admin",
+        "startTime": "2023-01-01T00:00:00.000Z",
+        "endTime": "2023-01-01T00:00:00.000Z",
+        "_id": "66fe3e220b5951b674a8ca7a",
+        "name": "test 124",
+        "description": "description",
+        "groupCode": "RO01",
+        "reportItem": [
+            {
+                "_id": "66fe3e220b5951b674a8ca7b",
+                "name": "behavior_loss_percentage",
+                "values": {
+                    "type": "behavior_loss_percentage",
+                    "limit": 10,
+                    "entities": [
+                        "Host"
+                    ],
+                    "sort": "asc",
+                    "sortBy": "loss",
+                    "products": [],
+                    "behaviors": [],
+                    "loss_threshold": 0.8
+                }
+            }
+        ],
+        "created_at": "2024-10-03T06:48:02.336Z",
+        "last_update": "2024-10-03T06:48:02.336Z",
+        "__v": 0
+    }
+}
+
+
+o	Chi tiết luồng xử lý
+	Query bảng report detail theo id
+	Nếu không tồn tại, thông báo lỗi cho client
+	Thực hiện mapping dữ liệu và trả về data cho client
+b.	API UPDATE REPORT
+o	Biểu đồ tuần tự:
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	UPDATE REPORT	Method: PUT
+/api/report/report-detail/<id>	{
+ "startTime": "2024-01-01",
+ "endTime": "2024-05-01",
+ "name": "tesst"
+}
+	{
+    "status": "KB. Success",
+    "data": {
+        “message: "Update successful”    }
+}
+
+
+o	Chi tiết luồng xử lý
+o	Chi tiết luồng xử lý
+	Bước 1: Kiểm tra trong DB có bản ghi Report với Id truyền vào k? Nếu không thì trả về thông báo lỗi tương ứng
+	Bước 2: Kiểm tra nếu user chỉ có quyền owner_report:edit thì kiểm tra create_by có trùng vơi thông tin trong token không. nếu không trùng thì trả về lỗi không có quyền xóa. Nếu user có quyền report:edit hoặc cả 2 report:edit vs owner_report:edit. Thì không cần kiểm tra thêm
+	Bước 3: Kiểm tra Id người thực hiện có trùng với Created by của bạn ghi tương ứng k. Nếu không có thông báo lỗi tương ứng
+	Bước 4: Lấy dữ liệu đầu vào từ request. Thực hiện validate các thông tin theo SRS
+•	Title: bắt buộc nhập
+•	Kiểm tra title không được trùng với report đã có trong DB
+•	Title có độ dài tối đa 200 kí tư
+•	Title chỉ cho phép chữ viết hoa, viết thường, số, "_" và dấu khoảng cách
+•	Time-Frame: bắt buộc nhập, Time from phải nhỏ hơn Time to
+Trả lại lỗi tương ứng cho client nếu không đáp ứng các yêu cầu trên
+	Bước 5: Thực hiện lưu các cấu hình vào bảng trong DB. Trả về kết quả thực hiện cho client
+
+c.	API CHECK NAME
+Đã mô tả ở phần thêm mới 3.2.1.2
+
+
+
+3.2.1.4	Thiết kế chức năng xóa báo cáo
+3.2.1.4.1	Thông tin chung về chức năng
+
+Mục tiêu	Cho phép người dùng được phép xóa báo cáo đã khởi tạo
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND nhấn vào BC đã được khởi tạo tại màn hình QLBC
+Pre-condition	ND đăng nhập thành công.
+Truy cập thành công vào màn Quản lý báo cáo
+ND có quyền xóa báo cáo (report:delete hoặc report:delete_owner)
+ND là người tạo ra báo cáo đang xóa
+Post-condition	Thực hiện xóa báo cáo khỏi màn danh sách.
+
+3.2.1.4.2	Luồng nghiệp vụ
+ 
+
+3.2.1.4.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+ 
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Messenger cảnh báo	Label	Output	Tên loại mẫu báo cáo + timestamp	-	Hiển thị cảnh báo bằng pop-up với ND khi click vào icon xóa "Do you want to delete this report? This action cannot be undone. Report:  %Tên_báo_cáo%?" 
+2. 	Xóa/Delete Report 	Button	Input	Hiển thị tại ngày đang tìm kiếm 	-	Nút Xóa
+-	Bấm Delete  sẽ thực hiện xóa báo cáo
+3.	
+Hủy/Canel
+	Button	Input		-	Nút hủy
+-	Bấm Cancel: tắt popup, quay lại màn hình quản lý báo cáo. Giữ nguyên điều kiện tìm kiếm trước đó (nếu có)
+
+3.2.1.4.4	Thiết kế API
+a.	API DELETE REPORT
+o	Biểu đồ tuần tự:
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	API DELETE REPORT	METHOD: DELETE
+/api/report/report-detail/<id>		{
+    "status": "KB. Success",
+    "data": "66fe3d8e0b5951b674a8ca6e"
+}
+
+o	Chi tiết luồng xử lý
+	Kiểm tra trong DB có bản ghi Report với Id truyền vào k? Nếu không thì trả về thông báo lỗi tương ứng
+	Kiểm tra nếu user chỉ có quyền owner_report:delete thì kiểm tra create_by có trùng vơi thông tin trong token không. nếu không trùng thì trả về lỗi không có quyền xóa. Nếu user có quyền report:delete hoặc cả 2 report:delete vs owner_report:delete. Thì không cần kiểm tra thêm
+	Kiểm tra Id người thực hiện có trùng với Created by của bạn ghi tương ứng k. Nếu không có thông báo lỗi tương ứng
+	Thực hiện xóa bản trong DB. Trả về kết quả thực hiện cho client
+3.2.1.5	Thiết kê chức năng xem báo cáo
+3.2.1.5.1	Thông tin chung về chức năng
+
+Mục tiêu	Cho phép người dùng xem chi tiết báo cáo
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND nhấn View để xem báo cáo chi tiết
+Pre-condition	ND đăng nhập thành công.
+Truy cập thành công vào màn Quản lý báo cáo
+Post-condition	Chuyển đến màn hình báo cáo tương ứng
+3.2.1.5.2	Luồng nghiệp vụ
+ 
+
+3.2.1.5.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Path dẫn	Label	Output		-	Hiển thị đường dẫn của report
+2. 	Tên báo cáo	Label	Output		-	Hiển thị tên báo cáo 
+3.	Timeframe
+	Label	Output		-	Hiển thị khoảng thời gian của báo cáo đã khởi tạo
+3.2.1.5.4	Thiết kế API
+b.	API GET REPORT BY ID
+Đã mô tả ở mục update report 3.2.1.3
+3.2.1.6	Thiết kế chức năng tải báo cáo
+3.2.1.6.1	Thông tin chung về chức năng
+Mục tiêu	Cho phép người dùng được phép tải các báo cáo đã khởi tạo trên hệ thống
+Đối tượng	•	Adminnistrator Master
+•	Tất cả ND khác có quyền
+Trigger	ND nhấn vào icon tải xuống ở cuối dòng báo cáo
+Pre-condition	ND đăng nhập thành công.
+Truy cập thành công vào màn Quản lý báo cáo
+Post-condition	Tải thành công báo cáo về thiết bị đang sử dụng
+3.2.1.6.2	Luồng nghiệp vụ
+ 
+
+
+3.2.1.6.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Download report	Icon	Output		Cho phép ND tải xuống báo cáo theo định dạng họ muốn (PDF/HTML)
+Chỉ chọn 1
+Định dạng bản file xuất:
+-	PDF: Định dạng full size mỗi section của báo cáo theo chiều dọc
+-	HTML: Giao diện export giống PDF
+3.2.1.6.4	Thiết kế API
+
+
+
+
+
+
+
+
+
+a.	API EXPORT REPORT
+o	Biểu đồ tuần tự:
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	API EXPORT REPORT	Method: GET
+/api/report/report/<id>
+/export?format=PDF/HTML	TBD	-	TBD
+o	Chi tiết luồng xử lý
+	Điều kiện đảm bảo: Cần chuẩn bị trước file template HTML theo mẫu báo cáo. 
+	Bước 1: Kiểm tra trong DB có bản ghi Report với Id truyền vào k? Nếu không thì trả về thông báo lỗi tương ứng
+	Bước 2: Validate đầu vào: Validate format truyền vào. Nếu không thuộc 2 dạng PDF hoặc HTML thì thông báo lỗi cho client
+	Bước 3: Lấy cấu hình các danh sách widget có trong báo cáo. Thực hiện lặp từng item.
+•	Lấy các thông số về time frame, entity, .. đáp ứng đầu vào của api CORE statistic-query. 
+•	Thực hiện gọi API Core statistic-query lấy dữ liệu cho item tương ứng
+•	Nếu API trả về lỗi, thực hiện sang widger tiếp theo, log lại lỗi. Nếu API trả về dữ liệu, thực hiện mapping vào template HTML 
+	Bước 4: Nếu format là HTML, chuẩn bị dạng output stream binary trả file về cho client. Nếu format là PDF, dùng library thực hiện convert HTML sang PDF. Sau đó trả file cho client
+
+3.2.2	Thiết kế chức năng báo cáo độ phủ giám sát của Host
+3.2.2.1	Xây dựng báo cáo số lượng Host  theo từng Product (Number of active hosts by product)
+3.2.2.1.1	Thông tin chung về chức năng
+Mục đích: Xem được độ phủ của entity-Host theo từng Product theo chù kỳ đánh giá và tỷ lệ hoạt động của Host. 
+o	Filter: Product (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+o	Sort: Product, Active hosts, Total hosts, Active Ratio
+3.2.2.1.2	Luồng nghiệp vụ
+N/A
+3.2.2.1.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Tên Báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Label	Output	All product	Hiển thị tên product
+Có sort theo alphabet
+Filter: khi click hiện cửa sổ nhỏ ngay bên dưới Product , multi selecttion, có type text tìm kiếm
+	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+	Khi chọn product sẽ hiện tag name lên trên
+
+3.	"Active Hosts"	Label	Output		Hiển thị số lượng active host theo product
+Có sort by: tăng/giảm
+4.	“Total Hosts”	Label	Output		Hiển thị tổng số lượng Host đang có trên hệ thống theo product
+Có sort by: tăng/giảm
+5.	"Active Ratio"	Label	Output		Hiển thị tỉ lệ host đang hoạt động theo product
+Active ratio= Active Host/Total Host
+	TH active host = total host = 0 → active ratio = 0
+Có sort by: lớn/nhỏ
+Value Range: Làm tròn 1 số sau dấu phẩy
+	>=95: green
+	[50-95):  yellow
+	< 50; red
+6.	"Show limit"	Dropdown list	Output	10 rows	
+
+
+
+
+
+
+
+
+-	Chi tiết luồng xử lý trên giao diện 
+ 
+o	Khi người dùng vào trang xem chi tiết báo cáo, kiểm tra quyền và owner của báo cáo. Nếu người dùng có quyền edit báo cáo và là owner của báo cáo. Thực hiện show giao diện mode editable.
+o	Thực hiện lấy cấu hình report từ response API get detail by id, thực hiện gọi API Get Statistic Report
+o	Khi nhận được response từ API, dừng loading animation và hiển thị dữ liệu lên giao diện
+o	Mỗi khi người dùng thực hiện thay đổi các thông số: filter, sort, threshold config. Thực hiện gọi là API Get Statistic Report. Cập nhật lại dữ liệu của bảng
+3.2.2.1.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+STT	Tên Service API	URL API	Tham số	Response
+1.	API GET STATISTIC  REPORT	Method: GET
+/api/report/get-data-report
+	{
+    "type": "entity_count_by_product",
+    "limit": 100,
+    "entities": ["Host"],
+    "sort": "asc",
+    "sortBy": "loss",
+    "products": ["test"],
+    "behaviors": ["test"],
+    "startTime": "2023-01-01",
+    "endTime": "2023-01-01",
+    "loss_threshold": 0.8,
+    "isUpdate": false
+}
+	{
+    "status": "KB. Success",
+    "data": {
+        "type": "entity_count_by_product",
+        "result": [
+            {
+                "product": "VCS-aJiant",
+                "entity": "Host",
+                "total": 1,
+                "accumulation": 1,
+                "active_ratio": 1
+            }
+        ]
+    }
+}
+
+2.	API CORE STATISTIC	http://HOST_IP:9090
+/api/v2/statistic/query	{ 
+    "type": "entity_count_by_product",
+    "start_time": "2022-01-01",
+    "end_time": "2024-10-01",  
+    "limit": 50,
+    "sort": "desc",
+    "entities": ["Host"],
+    "sort_by": "total",
+    "loss_threshold": 0.8,
+    "products": []
+}
+	{
+    "type": "entity_count_by_product",
+    "result": [
+        {
+            "product": "VCS-aJiant",
+            "entity": "Host",
+            "total": 1,
+            "accumulation": 1,
+            "active_ratio": 1
+        }
+    ]
+}
+
+o	Biểu đồ tuần tự:
+ 
+o	Mô tả đầu vào, đầu ra
+
+o	Chi tiết luồng xử lý
+	Validate input param từ client gửi lên. Trả về lỗi nếu data không hợp lệ
+	Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“entity_count_by_product“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["Host"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+	Thực hiện gọi API CORE STATISTIC theo tham số bên trên
+	Xử lý response trả về từ core, Nếu có lỗi thực hiện trả về thông báo cho client. 
+	Nếu có data, lưu lại cấu hình report vào bảng report_detail. Đồng thời mapping data theo format và trả về cho client.
+3.2.2.2	Xây dựng báo cáo độ phủ Entity theo từng behavior trong kỳ đánh giá (Number of active hosts by behavior)
+3.2.2.2.1	Thông tin chung về chức năng
+Mục đích: 
+o	Xem được khả năng giám sát entity-Host trong từng behavior.
+o	Cho phép người dùng nắm được danh mục/SL các và tỉ lệ hoạt động của ND theo từng Behavior
+o	Filter: 
+	Product (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+	Behavior (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+o	Sort: Behavior, Active hosts, Total hosts, Active Ratio
+3.2.2.2.2	Luồng nghiệp vụ
+N/A
+3.2.2.2.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Tên Báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Dropdown list	Input	All product	Hiển thị tên product
+Có sort theo alphabet
+Filter: khi click hiện cửa sổ nhỏ ngay bên dưới Product , multi selecttion, có type text tìm kiếm
+	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+	Khi chọn product sẽ hiện tag name lên trên
+
+3.	"Behavior"	Checkbox	Output	Listing các behavior thuộc product đã được chọn.	
+4.	"Active Hosts"	Label	Output		Hiển thị số lượng active host theo product
+Có sort by: tăng/giảm
+5.	“Total Hosts”	Label	Output		Hiển thị tổng số lượng Host đang có trên hệ thống theo product
+Có sort by: tăng/giảm
+6.	"Active Ratio"	Label	Output		Hiển thị tỉ lệ host đang hoạt động theo product
+Active ratio= Active Host/Total Host
+	TH active host = total host = 0 → active ratio = 0
+Có sort by: lớn/nhỏ
+Value Range: Làm tròn 1 số sau dấu phẩy
+	>=95: green
+	[50-95):  yellow
+	< 50; red
+7.	"Show limit"	Dropdown list	Output	10 rows	
+
+3.2.2.2.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“entity_count_by_behavior“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["Host"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	behavior_names	["Process Created"]	Danh sách behavior muốn filter. Null nếu không filter
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+
+		Xử lý tương tự mục 3.2.2.1.4
+b.	API GET BEHAVIOR BY PRODUCT
+o	Biểu đồ tuần tự:
+o	Mô tả đầu ra, đầu vào
+STT	Tên Service API	URL API	Tham số	Response
+1.	GET BEHAVIOR BY PRODUCT	/api/report/behavior	[
+    {"_id":""}
+]
+	{
+    "status": "KB. Success",
+    "results": 14,
+    "data": [
+        {
+            "products": [
+                {
+                    "_id": "6113915a86b97178951bd613",
+                    "display_name": "VCS-Server Endpoint"
+                }
+            ],
+            "_id": "61d8042b8d1d2f002b7e3dc3",
+            "name": "Process Network Outbound"
+        
+
+    ]
+}
+
+
+o	Chi tiết luồng xử lý
+	Query behavior danh sách product ids . Lấy thông tin _id và name trả về client
+3.2.2.3	Xây dựng báo cáo top các Entity-Host bị mất giám sát theo Product trong kỳ đánh giá (Number of missing behaviors by host)
+3.2.2.3.1	Thông tin chung về chức năng
+Mục đích: 
+o	Xem các entity-Host đang bị mất giám sát để kiểm tra và khắc phục.
+o	Sort: Host, Missing behavior, Total behavior, Missing ratio
+3.2.2.3.2	Luồng nghiệp vụ
+N/A
+3.2.2.3.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	"Host"	Label	Output		Hiển thị tên thực thể Host
+Có Sort by theo alphabet
+2.	"Missing behavior"	Label	Output		Hiển thị số lượng behavior bị mất giám sát
+Có sort by: tăng/giảm
+3.	"Total behavior"	Label	Output		Hiển thị tổng số lượng behavior đang có trên hệ thống
+Có sort by: tăng/giảm
+4.	"Missing ratio"	Label	Output		Hiển thị tỉ lệ host bị mất giám sát theo behavior trên tổng behavior
+Tỉ lệ mất giám sát  = Missing behavior/ Total behavior
+•	TH: Missing behavior=total behavior = 0 → Missing ratio = 0
+Có sort by: lớn/nhỏ
+Value range(%): Làm tròn 1 số sau dấu phẩy
+	[0,5]: green,
+	(5-50] : yellow
+	> 50: red
+5.	"Exclude Behavior"	Dropdown List	Input		Cho phép người dùng loại trừ các behavior không cần thiết trong báo cáo
+Placeholder "Search behavior"
+Multi selection, có type text tìm kiếm
+	Khi ND đã chọn từ 1 lựa chọn trở lên hiện thêm  "Clear selection Items" để bỏ chọn tất cả
+	Khi tick hoặc untick hệ thống sẽ active luôn (không cần hiện tag name)
+6.	Tooltips 	Label	Output		Hiển thị tên các behavior bị mất giám sát khi hold chuột tại cột Missing behavior khi ND trỏ chuột vào cột Missing ratio
+Max width 400px & Max height 400px, nếu data hiện quá kích thước đề ra sẽ sử dụng scroll để phân trang
+7.	Tên báo cáo	Label	Output		Hiển thị tên báo cáo
+8.	"Show limit"	Dropdown list	Input	10 rows	Hiển thị số dòng dữ liệu theo yêu cầu của ND
+Chỉ chọn 1.  
+9.	"Product"	Dropdown list	Input	All product	Cho phép người dùng chọn các loại product đang có, Multi selection
+Mặc định: 
+•	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+•	Khi chọn product sẽ hiện tag name lên trên
+
+
+3.2.2.3.4	Thiết kế API
+c.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“behavior_loss_count_by_product“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["Host"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	exclude_behaviors	["Process Created"]	Danh sách behavior muốn filter exclude. Null nếu không filter
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+		Xử lý tương tự 3.2.2.1.4
+3.2.2.4	Xây dựng báo cáo số lượng Entity-Host có tỉ lệ mất giám sát trên x %  trong kỳ đánh giá (Number of hosts have missing behavior ratio over <Config> by product)
+3.2.2.4.1	Thông tin chung về chức năng
+Mục đích: 
+o	Theo dõi được tỉ lệ mất giám sát quá x% của loại entity  ( x là cấu hình hệ thống).
+o	Sort: Product, Host have missing behavior ratio over 30%, Total active, Ratio
+3.2.2.4.2	Luồng nghiệp vụ
+N/A
+3.2.2.4.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	"Host"	Label	Output		Hiển thị tên thực thể Host
+Có Sort by theo alphabet
+1.	Tên báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Label	Output		Hiển thị tên product
+Có sort theo alphabet
+Filter: giống Product tại 2.1.1
+3.	"Host have missing behavior ratio over 30%"	Label	Output	Config = 30%	Hiển thị số lượng behavior bị mất giám sát trên <config>%
+Có sort by: tăng/giảm
+4.	"Total active"	Label	Output		Hiển thị tổng số lượng Host đang có trên hệ thống theo behavior
+Có sort by: tăng/giảm
+5.	"Ratio"	Label	Output		Hiển thị tỉ lệ behavior bị mất giám sát theo config cài đặt
+Có sort by: lớn/nhỏ
+Value range(%): Làm tròn 1 số sau dấu phẩy
+	[0,5]: green,
+	(5-50] : yellow
+	> 50: red
+6.	"Config"	Textbox	Input	config = 30%	Cho phép người dùng tủy chỉnh % của config 
+Yêu cầu nhập số nguyên 0-100, sau đó click Save để áp dụng.
+Sau khi chỉnh sửa config sẽ load lại theo config mới, và sẽ lưu lại config cho lần xem sau.
+7.	"Show limit"	Dropdown list	Input	10 rows	Hiển thị số dòng dữ liệu theo yêu cầu của ND
+Chỉ chọn 1.  
+
+3.2.2.4.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“behavior_loss_percentage“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["Host"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	loss_threshold	0.8
+	Ngưỡng muốn lấy
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+Xử lý tương tự mục 3.2.2.1.4
+3.2.3	Thiết kế chức năng báo cáo độ phủ giám sát của User
+3.2.3.1	Xây dựng báo cáo số lượng User  theo từng Product (Number of active users by product)
+3.2.3.1.1	Thông tin chung về chức năng
+Mục đích: Xem được độ phủ của Entity-User theo từng Product theo chù kỳ đánh giá và tỷ lệ hoạt động của User. 
+o	Filter: Product (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+o	Sort: Product, Active users, Total users, Active Ratio
+3.2.3.1.2	Luồng nghiệp vụ
+N/A
+3.2.3.1.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Tên Báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Label	Output	All product	Hiển thị tên product
+Có sort theo alphabet
+Filter: khi click hiện cửa sổ nhỏ ngay bên dưới Product , multi selecttion, có type text tìm kiếm
+	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+	Khi chọn product sẽ hiện tag name lên trên
+
+3.	"Active User"	Label	Output		Hiển thị số lượng active user theo product
+Có sort by: tăng/giảm
+4.	“Total User”	Label	Output		Hiển thị tổng số lượng User đang có trên hệ thống theo product
+Có sort by: tăng/giảm
+5.	"Active Ratio"	Label	Output		Hiển thị tỉ lệ User đang hoạt động theo product
+Active ratio= Active User/Total User
+	TH active user = total user = 0 → active ratio = 0
+Có sort by: lớn/nhỏ
+Value Range: Làm tròn 1 số sau dấu phẩy
+	>=95: green
+	[50-95):  yellow
+	< 50; red
+6.	"Show limit"	Dropdown list	Output	10 rows	
+
+3.2.3.1.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+-	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“entity_count_by_product“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["User"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+		Xử lý tương tự mục 3.2.2.1.4
+3.2.3.2	Xây dựng báo cáo độ phủ Entity - User theo từng behavior trong kỳ đánh giá (Number of active user by behavior)
+3.2.3.2.1	Thông tin chung về chức năng
+Mục đích: 
+o	Xem được khả năng giám sát entity-User trong từng behavior.
+o	Cho phép người dùng nắm được danh mục/SL các và tỉ lệ hoạt động của ND theo từng Behavior
+o	Filter: 
+	Product (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+	Behavior (mặc định là tất cả, có thể chọn 1 hoặc nhiều)
+o	Sort: Behavior, Active user, Total users, Active Ratio
+3.2.3.2.2	Luồng nghiệp vụ
+N/A
+3.2.3.2.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	Tên Báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Dropdown list	Input	All product	Hiển thị tên product
+Có sort theo alphabet
+Filter: khi click hiện cửa sổ nhỏ ngay bên dưới Product , multi selecttion, có type text tìm kiếm
+	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+	Khi chọn product sẽ hiện tag name lên trên
+
+3.	"Behavior"	Checkbox	Output	Listing các behavior thuộc product đã được chọn.	
+4.	"Active Users"	Label	Output		Hiển thị số lượng active User theo product
+Có sort by: tăng/giảm
+5.	“Total Users”	Label	Output		Hiển thị tổng số lượng User đang có trên hệ thống theo product
+Có sort by: tăng/giảm
+6.	"Active Ratio"	Label	Output		Hiển thị tỉ lệ User đang hoạt động theo product
+Active ratio= Active Host/Total Host
+	TH active user = total user = 0 → active ratio = 0
+Có sort by: lớn/nhỏ
+Value Range: Làm tròn 1 số sau dấu phẩy
+	>=95: green
+	[50-95):  yellow
+	< 50; red
+7.	"Show limit"	Dropdown list	Output	10 rows	
+
+3.2.3.2.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“entity_count_by_behavior“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["User"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	behavior_names	["Process Created"]	Danh sách behavior muốn filter. Null nếu không filter
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+		Xử lý tương tự mục 3.2.2.1.4
+3.2.3.3	Xây dựng báo cáo top các Entity-User bị mất giám sát theo Product trong kỳ đánh giá (Number of missing behaviors by user)
+3.2.3.3.1	Thông tin chung về chức năng
+Mục đích: 
+o	Xem các entity-User đang bị mất giám sát để kiểm tra và khắc phục.
+o	Sort: Host, Missing behavior, Total behavior, Missing ratio
+3.2.3.3.2	Luồng nghiệp vụ
+N/A
+3.2.3.3.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	"User"	Label	Output		Hiển thị tên thực thể User
+Có Sort by theo alphabet
+2.	"Missing behavior"	Label	Output		Hiển thị số lượng behavior bị mất giám sát
+Có sort by: tăng/giảm
+3.	"Total behavior"	Label	Output		Hiển thị tổng số lượng behavior đang có trên hệ thống
+Có sort by: tăng/giảm
+4.	"Missing ratio"	Label	Output		Hiển thị tỉ lệ user bị mất giám sát theo behavior trên tổng behavior
+Tỉ lệ mất giám sát  = Missing behavior/ Total behavior
+•	TH: Missing behavior=total behavior = 0 → Missing ratio = 0
+Có sort by: lớn/nhỏ
+Value range(%): Làm tròn 1 số sau dấu phẩy
+	[0,5]: green,
+	(5-50] : yellow
+	> 50: red
+5.	"Exclude Behavior"	Dropdown List	Input		Cho phép người dùng loại trừ các behavior không cần thiết trong báo cáo
+Placeholder "Search behavior"
+Multi selection, có type text tìm kiếm
+	Khi ND đã chọn từ 1 lựa chọn trở lên hiện thêm  "Clear selection Items" để bỏ chọn tất cả
+	Khi tick hoặc untick hệ thống sẽ active luôn (không cần hiện tag name)
+6.	Tooltips 	Label	Output		Hiển thị tên các behavior bị mất giám sát khi hold chuột tại cột Missing behavior khi ND trỏ chuột vào cột Missing ratio
+Max width 400px & Max height 400px, nếu data hiện quá kích thước đề ra sẽ sử dụng scroll để phân trang
+7.	Tên báo cáo	Label	Output		Hiển thị tên báo cáo
+8.	"Show limit"	Dropdown list	Input	10 rows	Hiển thị số dòng dữ liệu theo yêu cầu của ND
+Chỉ chọn 1.  
+9.	"Product"	Dropdown list	Input	All product	Cho phép người dùng chọn các loại product đang có, Multi selection
+Mặc định: 
+•	Khi tick tất cả = untick tất cả (trả kết quả giống nhau- hiển thị toàn bộ data)
+•	Khi chọn product sẽ hiện tag name lên trên
+
+
+3.2.3.3.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“behavior_loss_count_by_product
+ “	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["User"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	exclude_behaviors	["Process Created"]	Danh sách behavior muốn filter exclude. Null nếu không filter
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+		Xử lý tương tự mục 3.2.2.1.4
+3.2.3.4	Xây dựng báo cáo số lượng Entity-User có tỉ lệ mất giám sát trên x %  trong kỳ đánh giá (Number of users have missing behavior ratio over <Config> by product)
+3.2.3.4.1	Thông tin chung về chức năng
+Mục đích: 
+o	Theo dõi được tỉ lệ mất giám sát quá x% của loại entity  ( x là cấu hình hệ thống).
+o	Sort: Product, User have missing behavior ratio over 30%, Total active, Ratio
+3.2.3.4.2	Luồng nghiệp vụ
+N/A
+3.2.3.4.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả
+1. 	"User"	Label	Output		Hiển thị tên thực thể Host
+Có Sort by theo alphabet
+1.	Tên báo cáo	Label	Output		Hiển thị tên báo cáo
+2.	"Product"	Label	Output		Hiển thị tên product
+Có sort theo alphabet
+Filter: giống Product tại 2.1.1
+3.	"User have missing behavior ratio over 30%"	Label	Output	Config = 30%	Hiển thị số lượng behavior bị mất giám sát trên <config>%
+Có sort by: tăng/giảm
+4.	"Total active"	Label	Output		Hiển thị tổng số lượng User đang có trên hệ thống theo behavior
+Có sort by: tăng/giảm
+5.	"Ratio"	Label	Output		Hiển thị tỉ lệ behavior bị mất giám sát theo config cài đặt
+Có sort by: lớn/nhỏ
+Value range(%): Làm tròn 1 số sau dấu phẩy
+	[0,5]: green,
+	(5-50] : yellow
+	> 50: red
+6.	"Config"	Textbox	Input	config = 30%	Cho phép người dùng tủy chỉnh % của config 
+Yêu cầu nhập số nguyên 0-100, sau đó click Save để áp dụng.
+Sau khi chỉnh sửa config sẽ load lại theo config mới, và sẽ lưu lại config cho lần xem sau.
+7.	"Show limit"	Dropdown list	Input	10 rows	Hiển thị số dòng dữ liệu theo yêu cầu của ND
+Chỉ chọn 1.  
+
+
+3.2.3.4.4	Thiết kế API
+a.	API GET STATISTIC REPORT
+o	Biểu đồ tuần tự:
+Tương tự mục: 3.2.2.1.4
+o	Mô tả đầu vào, đầu ra:
+Tương tự mục: 3.2.2.1.4
+o	Chi tiết luồng xử lý
+	Bước 1: Chuẩn bị các tham số đầu vào lấy từ bản ghi cấu hình report bao gồm: 
+STT	Keyword	Value	Mô tả
+1.	type	“behavior_loss_percentage“	
+2.	start_time	Format: “YYYY-MM-DD”	Time bắt đầu
+3. 	end_time	Format: “YYYY-MM-DD”	Time kết thúc
+4.	limit	10/20/50/100	
+5.	entities	["User"]	Thực thể tính độ phủ
+6.	sort	asc/desc	
+7.	sort_by	total	Trường muốn sắp xếp:
+-	Total
+-	Accumulation
+-	Active_ratio
+8	loss_threshold	0.8
+	Ngưỡng muốn lấy
+9.	products	["VCS-aJiant", "Microsoft Windows"]	Danh sách product muốn filter. Null nếu không filter
+	Xử lý tương tự mục 3.2.2.1.4
+
+3.2.4	Thiết kế chức năng export mẫu độ phủ kỹ thuật
+3.2.4.1	Xây dựng chức năng export mẫu độ phủ kỹ thuật
+
+
+
+3.2.4.1.1	Thông tin  chung về chức năng
+Mục tiêu	Cho phép ND xuất file JSON để xem độ phủ kỹ thuật trên hệ thống theo Mitre
+Đối tượng	•	ND được phân quyền xem độ phủ kỹ thuật trên hệ thống theo Mitre
+Trigger	Tải file MITRE JSON
+Pre-condition	Được phân quyền
+Filter danh sách use case
+Tải file MITRE JSON
+Post-condition	Upload file MITRE JSON vào https://mitre-attack.github.io/attack-navigator/
+
+
+3.2.4.1.2	Luồng nghiệp vụ
+
+
+ 
+3.2.4.1.3	Thiết kế giao diện
+-	Chi tiết các control trên màn hình
+ 
+
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1. 	Technique	Multi-select & search dropdown list	Input		Cho phép search theo technique/sub technique & technique category, filter theo tiêu chuẩn UEBA/All standards/Others
+Cho phép người dùng tick kết quả sau khi search thành công
+Trường hợp mặc định không chọn hiển thị danh sách thỏa mãn all
+(Điều kiện nếu nhập xem chi tiết tại Chi tiết dropdown của filter Technique)
+
+2.	Status	Multi-select dropdown	Input		Phân loại use case theo trạng thái
+•	Disable
+•	Enable
+Khi người dùng chọn ít nhất 01 option, hiển thị option "Clear selected items", onclick bỏ chọn tất cả các option
+Trường hợp mặc định không chọn hiển thị danh sách thỏa mãn all
+3.	Escalated	Multi-select dropdown	Input		Phân loại use case theo trạng thái Enable/Disable escalated
+•	Disable
+•	Enable
+Khi người dùng chọn ít nhất 01 option, hiển thị option "Clear selected items", onclick bỏ chọn tất cả các option
+Trường hợp mặc định không chọn hiển thị danh sách thỏa mãn all
+4.	Profiling	Multi-select dropdown	Input		Phân loại use case theo profiling
+•	Use profiling
+•	No profiling
+Khi người dùng chọn ít nhất 01 option, hiển thị option "Clear selected items", onclick bỏ chọn tất cả các option
+Trường hợp mặc định không chọn hiển thị danh sách thỏa mãn all
+5.	View MITRE Technique Coverage		Output		Onlick hiển thị modal export MITRE JSON
+(Xem chi tiết modal tại Chi tiết modal export MITRE JSON)
+
+
+ 
+STT	Tên	Kiểu dữ liệu
+[Độ dài dữ liệu]	Input/
+Output	Giá trị khởi tạo	Mô tả (Mapping với CSDL nếu có)
+1. 	Download MITRE JSON	Button	Output		Onclick export file MITRE JSON theo danh sách những use case được filter
+2.	View MITRE Technique Coverage	Link	Output		Onclick điều hướng đến link xem độ phủ kỹ thuật trên hệ thống theo Mitre
+https://mitre-attack.github.io/attack-navigator/
+
+
+-	Luồng xử lý trên giao diện
+
+ 
+o	Người dùng vào màn hình quản lý usecases, thực hiện chọn các filter có sẵn gồm:
+	Behavior
+	Type
+	Category
+	Technique
+	Risk level
+	Status
+	Escalated
+	Profiling
+o	Trên modal chọn Technique, thực hiện loc theo trường is_UEBA từ data cho dropdown list 
+o	Gọi api xử lý khi ấn search
+	Count usecase
+	Get usecase group by category
+	Get usecase list 
+o	 Khi click View MITRE Technique Coverage,  mở modal Instruction 
+o	Click Download MITRE JSON, gọi API downloadMitreJson để download
+3.2.4.1.4	Thiết kế API
+a.	API SEARCH USECASES
+o	Biểu đồ tuần tự
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	SEARCH USECASE	/api/usecases/search	-	alertTimeQuery: string
+-	behaviors: array
+-	categories: array
+-	escalated: array
+-	risk_score: array
+-	status: array
+-	techniques: array
+-	type_usecase: array
+-	profiling: array	-	TBD
+
+o	Chi tiết luồng xử lý
+	Kiểm tra quyền thực thi API
+	Lấy toàn bộ usecase từ bảng usecase
+	Thực hiện lọc theo các điều kiện đầu vào
+•	behaviors: array
+•	categories: array
+•	escalated: array
+•	risk_score: array
+•	status: array
+•	techniques: array
+•	type_usecase: array
+•	profiling: array: Bổ sung thêm lọc theo profiling. Kiểm tra trong rule thuộc usecase, path để check có lại profiling hay k: rule.stateless[].logic.lhs.type 
+	giữ nguyên luồng API cũ
+
+b.	API SEARCHRAW USECASES
+o	Biểu đồ tuần tự
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	SEARCH USECASE RAW	/api/usecases/searchraw	-	alertTimeQuery: string
+-	behaviors: array
+-	categories: array
+-	escalated: array
+-	risk_score: array
+-	status: array
+-	techniques: array
+-	type_usecase: array
+-	profiling: array	-	TBD
+
+o	Chi tiết luồng xử lý
+	Kiểm tra quyền thực thi API
+	Lấy toàn bộ usecase từ bảng usecase
+	Thực hiện lọc theo các điều kiện đầu vào
+•	behaviors: array
+•	categories: array
+•	escalated: array
+•	risk_score: array
+•	status: array
+•	techniques: array
+•	type_usecase: array
+•	profiling: array: Bổ sung thêm lọc theo profiling. Kiểm tra trong rule thuộc usecase, path để check có lại profiling hay k: rule.stateless[].logic.lhs.type 
+	giữ nguyên luồng API cũ
+
+
+
+
+
+
+
+
+c.	API EXPORT JSON COVERAGE
+o	Biểu đồ tuần tự
+ 
+o	Mô tả đầu vào, đầu ra
+STT	Tên Service API	URL API	Tham số	Response
+1.	SEARCH DOWNLOAD MITRE JSON	/api/usecases/mitre-json-export	-	alertTimeQuery: string
+-	behaviors: array
+-	categories: array
+-	escalated: array
+-	risk_score: array
+-	status: array
+-	techniques: array
+-	type_usecase: array
+-	profiling: array	-	TBD
+
+o	Chi tiết luồng xử lý
+	Kiểm tra quyền thực thi API
+	Lấy toàn bộ usecase từ bảng usecase
+	Thực hiện lọc theo các điều kiện đầu vào
+•	behaviors: array
+•	categories: array
+•	escalated: array
+•	risk_score: array
+•	status: array
+•	techniques: array
+•	type_usecase: array
+•	profiling: array: Bổ sung thêm lọc theo profiling. Kiểm tra trong rule thuộc usecase, path để check có lại profiling hay k: rule.stateless[].logic.lhs.type 
+	aggregate data để fill data theo format MITRE
+Tên trường	Cách tính toán
+techniqueID	Từ trường tags của usecase, populate thêm data technique.  Lấy thông tin từ path others.external_id
+color	Từ trường tags của usecase, populate thêm data technique.  Lấy thông tin từ path color
+metadata	
+	No. of Usecase	Count theo số usecase tìm kiếm thỏa mãn điều kiện
+	No. of Escalated Usecase	Count theo số usecase có escalated. Điều kiện trong path sau: risk_score.escalated = 1
+	No. of Behavior	Count distinct số lượng behavior : data populate từ rule, trường behavior_id trong rule
+	No. of Product	Count distinct số lượng product : data populate từ rule, populate thêm behavior id, trường products trong behavior
+legendItems	
+	Label	Concat các điều kiện filter thành chuỗi
+	color	Từ trường tags của usecase, populate thêm data technique.  Lấy thông tin từ path color
+	Thực hiện tạo file .json fill data ở bước trên. Convert sang binary stream và trả về cho client
+d.	API EXPORT JSON COVERAGE
+o	Biểu đồ tuần tự
+o	Mô tả đầu ra, đầu vào
+STT	Tên Service API	URL API	Tham số	Response
+1.	MIGRATE TECHNIQUE UEBA	/api/tag/migrate-technique-ueba	List technique id	-	TBD
+
+o	Chi tiết luồng xử lý
+	Lặp trong danh sách technique id đầu vào, thực hiện update theo batch 10 phần tử vào bảng tag. Trường others.is_ueba = true
+4.	THIẾT KẾ CƠ SỞ DỮ LIỆU
+4.1.1	Mô hình dữ liệu
+Chức năng sử dụng mongo để lưu dữ liệu report và các cấu hình liên quan
+•	Các bảng/collection   dữ liệu như sau:
+STT	Table/ Collection	Loại	Mô tả
+1	report_group	MongoDB	Lưu danh mục các nhóm báo cáo định nghĩa trước cho người dung
+2	report_item 	MongoDB	Lưu các báo cáo template được định nghĩa trước cho người dùng, theo từng nhóm
+3	report_detail	MongoDB	Lưu trữ các báo cáo của người dùng tạo. có thông tin nhóm báo cáo
+•	
+4.1.2	Chi tiết các bảng CSDL
+4.1.2.1	Bảng report_group
+STT	Tên trường	Kiểu dữ liệu và độ dài	Nullable	Unique 	P/F Key	Mặc định	Mô tả
+1	_id	ObjetId		X	P		
+2	name	String		X			Tên nhóm.
+3	code	String		X			Mã nhóm
+4	description	String	X				Mô tả
+5	status	Int32				1	Trạng thái 0/1
+4.1.2.2	Bảng report_item
+STT	Tên trường	Kiểu dữ liệu và độ dài	Nullable	Unique 	P/F Key	Mặc định	Mô tả
+1	_id	ObjetId		X	P		
+2	name	String		X			Tên báo cáo.
+3	group_code	String					Mã nhóm
+4	description	String	X				Mô tả
+5	status	Int32				1	Trạng thái 0/1
+6	param	Object					Chứa các param mặc định cho lần đầu tạo báo cáo
+a.	Object param trong report_item
+STT	Tên trường	Kiểu dữ liệu và độ dài	Nullable	Mô tả
+1	type	String		Loại báo cáo
+2	startTime	String		Thời gian bắt đầu
+3	endTime	String		Thời gian kết thúc
+4	limit	String		Số lượng bản ghi
+5	sort	String		Hướng sắp xếp
+6	sort_by	String		Cột sắp xếp
+7	entities	Array		Thực thể báo cáo
+8	behavior_names	Array		Danh sách behavior lọc
+9	products	Array		Danh sách product lọc
+4.1.2.3	Bảng report_detail
+STT	Tên trường	Kiểu dữ liệu và độ dài	Nullable	Unique 	P/F Key	Mặc định	Mô tả
+1	_id	ObjetId		X	P		
+2	name	String		X			Tên báo cáo.
+3	group_code	String					Mã nhóm
+4	description	String	X				Mô tả
+5	status	Int32				1	Trạng thái 0/1
+6	creator	String					Người tạo
+7	startTime	String					Thời gian bắt đầu lấy báo cáo
+8	endTime	String					Thời gian kết thúc lấy báo cáo
+9	reportItem	Array<ReportItem>					Danh sách các báo cáo widget
+e.	Object ReportItem <refer collection report_item>
+4.1.3		Constraint
+N/A
+4.1.4	Index
+N/A
+4.1.5	Trigger
+N/A
+4.1.6	Store Procedure/Function
+N/A
+5.	THIẾT KẾ DÙNG CHUNG VÀ TÁI SỬ DỤNG
+Mô tả các thành phần dùng chung, tái sử dụng trong hệ thống ví dụ: tiêu chuẩn thiết kế API, xác thực SSO, Authen/Authoz, …
+
+6.	THIẾT KẾ ĐẢM BẢO TUÂN THỦ TIÊU CHUẨN QUẢN TRỊ DỮ LIỆU
+[Liệt kê các thiết kế/tính năng/giải pháp đáp ứng tuân thủ tiêu chuẩn Quản trị dữ liệu đã nêu trong CTKT và PTYC]
+[Ví dụ: 
+6.1	 Quản trị dữ liệu
+-	Xác định các CDE có trong hệ thống và được khai báo trên bảng danh mục Đối tượng dữ liệu của Metadata. Critical Data Elements(CDE) là dữ liệu trọng yếu của tổ chức. Thông thường CDE chính là các dữ liệu sử dụng trực tiếp/gián tiếp cho báo cáo, nghiệp vụ chính của tổ chức/đơn vị. Ví dụ: trong SOAR thì CDE là các trường dữ liệu trực tiếp/gián tiếp cho nghiệp vụ báo cáo KPI/KQI vận hành SOC.
+STT	Tên trường dữ liệu	Mô tả	Bảng dữ liệu	Trường dữ liệu	Loại dữ liệu	Chủ sở hữu dữ liệu
+Ví dụ 1	Doanh  thu thoại	Doanh thu sử dụng dịch vụ thoại	f016_mpre_tot_charge	v_tot_charge	double	Ban Chiến lược
+Ví dụ 2	Số điện thoại	Số điện thoại khách hàng đăng ký dịch vụ MyClip/5DMax/MobiTV/Onme	f001_vas_vod_myclip_sub2	isdn	string	Trung tâm sản phẩm VTT
+						
+
+6.2	Bảo mật dữ liệu
+-	Xác định danh sách dữ liệu cần tuân thủ tiêu chuẩn Bảo mật:
+STT	Tên trường dữ liệu	Hệ thống/ Module	Phân cấp bảo mật	Phân loại bảo mật	Định nghĩa các vai trò (role) và phân quyền dữ liệu tương ứng	Làm mờ - masking dữ liệu
+Ví dụ 1	Số điện thoại	Datalake – Bộ dữ liệu về khách hàng sử dụng dịch vụ VOD	Mật	Dữ liệu định danh khách hàng	Dữ liệu phải được phân rõ vai trò, cũng như trên hệ thống phải có khả năng phân quyền ứng theo vai trò
+- Truy cập/Cập nhật/Xóa: Đơn vị vận hành về mặt nghiệp vụ
+ - Truy cập: Cá nhân phân tích dữ liệu 	Đối với vai trò khai thác, phân tích dữ liệu phải thực hiện mã hóa
+-	Giải pháp đảm bảo (chỉ ra các tính năng/giải pháp giúp đảm bảo tuân thủ):
+o	Phân cấp bảo mật và cấp độ bảo mật: Hệ thống có khả năng gán cấp độ bảo mật và phân loại danh mục dữ liệu đến mức bảng, trường dữ liệu (tuân thủ theo quy định 3915/QĐ-CNVTQĐ-CTr về phân cấp dữ liệu trong TĐ)
+o	Định nghĩa các vai trò & phân quyền: Hệ thống có khả năng định nghĩa các vai trò và phân quyền user theo vai trò ứng với các cấp độ bảo mật và danh mục dữ liệu đã gán.
+o	Làm mờ: Có khả năng làm mờ ứng với rule đặt trước với các vai trò không được phép (tuân theo tiêu chuẩn TC.CNVTQĐ.CNTT.16.1 – Tiêu chuẩn ATTT ứng dụng WEB).
+o	Sử dụng và chia sẻ dữ liệu: hình thức chia sẻ dữ liệu là gì (FTP/SFTP/API…), giao thức là gì (TCP/UDP/…),  tuân theo tiêu chuẩn bảo mật nào (SSL/TLS) 
+o	Giám sát và cảnh bảo:
+	Ghi log của việc chia sẻ dữ liệu. Format log: IP nguồn, đích, tài khoản
+	Ghi log các giao dịch bất thường có các chứa thông tin các trường dữ liệu trọng yếu: log tra cứu thông tin thuê bao từ IP ngoài Viettel, log tra cứu thông tin khách hàng với tần suất bất thường ….
+	Hình thức gửi cảnh báo log bất thường: emall/sđt
+
+6.3	Chất lượng dữ liệu
+-	Xác định danh sách dữ liệu cần tuân thủ tiêu chuẩn Chất lượng dữ liệu dựa trên bộ rule chuẩn:
+Bảng	Tiêu chuẩn	Luật check	Đối tượng check	Trường dữ liệu	Mô tả chi tiết luật đánh giá	Câu lệnh check
+etc_trans	Chính xác	Toàn vẹn dữ liệu	field	acc_no	Kiểm tra khóa ngoại của dataset đang tồn tại trong bảng nguồn hợp lệ	Select etc_trans. acc_no, source_infra. acc_no from etc_trans right join source_infra and source_infra. acc_no is not null
+	Chính xác	Dữ liệu thỏa mãn theo logic tính toán trong cùng bảng	field		Kiểm tra trường dữ liệu đúng logic cụ thể trong cùng bảng	
+	Chính xác	Dữ liệu thỏa mãn theo logic tính toán khác bảng	field		Kiểm tra trường dữ liệu đúng logic cụ thể khác bảng	
+	Đầy đủ	Các field khác null	field		Kiểm tra all cột trong bảng sẽ khác null thì ok, đảm bảo dữ liệu luôn đầy đủ cho việc sử dụng hiện tại và tương lai (nếu cần)	
+	Đầy đủ	Các field khác null theo một số điều kiện	field		Kiểm tra các cột sẽ != null nếu thỏa mãn điều kiện	
+etc_trans	Duy nhất	Bộ key xác định bản ghi duy nhất trong dataset	row	N/A	Kiểm tra all các bản ghi trong dataset, nếu có bản ghi nào trùng bộ key thì không thỏa mãn	Select acc_no, count(*) from etc_trans group by acc_no having count(*) > 1
+etc_trans	Kịp thời	Dữ liệu đúng thời gian cố định cho cả dataset	table		Kiểm tra thời gian có dữ liệu trong bảng đúng thời gian quy định	SQL: 
+ select DATE_FOMAT(max(CREATED_DATE),'HHMM') from etc_trans where partition = YYYYMMDD
+Thời gian yêu cầu: <= 0730
+	Kịp thời	Dữ liệu đúng thời gian cố định cho từng nhóm đổi tượng trong dataset	table		Kiểm tra thời gian có dữ liệu trong bảng đúng thời gian quy định theo từng nhóm đối tượng	
+	Kịp thời	Dữ liệu đúng thời gian quy định so với dữ liệu nguồn (check time out of date)	table		Kiểm tra thời gian của bảng phải thỏa mãn thời gian quy định trong 1 khoảng thời gian so với bảng nguồn	
+	Hợp lệ	Loại dữ liệu	Field		Kiểm tra loại dữ liệu các trường	
+	Hợp lệ	Định dạng dữ liệu cố định	Field		Kiểm tra format định dạng của trường dữ liệu theo format cố định	
+	Hợp lệ	Định dạng dữ liệu phụ thuộc thông tin khác	Field		Kiểm tra format định dạng của trường dữ liệu theo format phụ thuộc thông tin khác	
+	Hợp lệ	Giới hạn dữ liệu hợp lệ cố định	Field		Kiểm tra giá trị tại các trường có giá trị thỏa mãn trong khoảng giá trị cho phép cố định	
+	Hợp lệ	Giới hạn dữ liệu hợp lệ theo giá trị khác	Field		Kiểm tra giá trị tại các trường có giá trị thỏa mãn theo giá trị khác	
+	Hợp lệ	Giới hạn dữ liệu hợp lệ theo giá trị từ bảng khác	Field		Kiểm tra giá trị tại các trường có giá trị từ bảng khác	
+	Nhất quán	Dữ liệu nhất quán ở các bảng khác nhau	Field		Dữ liệu nhất quán ở các bảng khác nhau	
+	Nhất quán	Dữ liệu nhất quán trong cùng 1 bản ghi	Field		Dữ liệu nhất quán trong cùng 1 bản ghi	
+	Nhất quán	Dữ liệu nhất quán trong cùng bảng nhưng khác bản ghi	Field		Dữ liệu nhất quán trong cùng bảng nhưng khác bản ghi	
+	Nhất quán	Xu hướng dữ liệu nhóm đối tượng nhất quán theo thời gian	Field		Xu hướng dữ liệu nhóm đối tượng nhất quán theo thời gian	
+	Nhất quán	Xu hướng dữ liệu cả dataset nhất quán theo thời gian	Field		Xu hướng dữ liệu cả dataset nhất quán theo thời gian	
+Giải pháp đảm bảo: cài đặt agent DOC để tích hợp đánh giá trên hệ thống DOC
+6.4	Quản lý siêu dữ liệu
+6.4.1	Thông tin đối tượng dữ liệu
+STT	Tên đối tượng	Mô tả	Loại đối tượng	Thông tin liên quan	Kiểu dữ liệu	Thời gian tạo	Thời gian chỉnh sửa cuối	Cấp độ bảo mật	Danh mục dữ liệu	Dữ liệu trọng yếu	Đơn vị chủ dữ liệu	Đầu mối quản lý dữ liệu	Đơn vị chủ sở hữu hệ thống	Đầu mối quản trị kỹ thuật	Đồng bộ
+   1	etc_trans	Giao dịch tạo tk VTP	Bảng	acc_no,
+[các trường thuộc bảng]		Thời gian hệ thống tự sinh	Thời gian hệ thống tự sinh		Dữ liệu khách hàng		Trung tâm Sản phẩm		Trung tâm công nghệ		N/A
+2	Acc_no	Số tk Viettel Pay	Trường	etc_trans	String	01/01/2016	19/05/2020	Mật	Dữ liệu khách hàng	CDE	Trung tâm Sản phẩm		Trung tâm công nghệ		N/A
+3	Isdn	Số thuê bao	Trường	etc_trans	String	01/01/2016	19/05/2020	Mật	Dữ liệu khách hàng	CDE	Trung tâm Sản phẩm – VTT		Khối CNTT – VTT		Metadata VTT
+6.4.2	Thông tin hệ thống
+STT	Tên ứng dụng	Mô tả	Phiên bản	Đơn vị chủ sở hữu hệ thống	Đầu mối quản trị kỹ thuật
+01	Viettel Pay	ViettelPay là hệ sinh thái thanh toán số cung cấp các dịch vụ thanh toán hàng ngày của mỗi gia đình như: Thanh toán hoá đơn, chuyển tiền, thanh toán tín dụng, nạp thẻ cào, thanh toán cước viễn thông, đặt vé máy bay, tàu hỏa,…	2.0	Trung tâm sản phẩm - VDS	Trung tâm sản phẩm - VDS
+6.4.3	Thông tin luồng dữ liệu
+STT	Tên luồng	Mô tả	Luồng dữ liệu	Đầu mối quản lý	Nghiệp vụ sử dụng luồng
+01	Tra cứu hợp đồng ePass với tk VTP	Chức năng cho CSKH có thể tra cứu thông tin hợp đồng ePass đã liên kết với ViettelPay	Lấy dữ liệu từ các bảng etc_trans, vehicle	Trung tâm sản phẩm - VDS	CSKH
+					
+6.4.4	Thông tin thuật ngữ nghiệp vụ
+STT	Tên thuật ngữ	Tên viết tắt / tên gợi nhớ	Định nghĩa	Quy tắc nghiệp vụ/công thức tính	Đơn vị định nghĩa thuật ngữ	Các thuật ngữ liên quan	Trường dữ liệu liên kết	Thời điểm tạo	Lịch sử chỉnh sửa
+01	Thuê bao thực	15c3d	Thuê bao phát sinh 3k / 3 ngày 		Ban Chiến lược				
+02	Thuê bao register	register sub	Thuê bao register vào mạng		Ban Chiến lược				
+-	Giải pháp đảm bảo (chỉ ra các tính năng/giải pháp giúp đảm bảo tuân thủ):
+o	Xây dựng bảng dữ liệu danh mục tương ứng thông tin cần quản lý
+o	Hệ thống phải có khả năng truy xuất siêu dữ liệu phục vụ việc tích hợp về kho siêu dữ liệu tập trung
+Nêu rõ cách thiết kế API và cấu trúc data exchange format
+6.5	Lưu trữ và vận hành
+STT	Dữ liệu	Mô tả	Đối tượng dữ liệu	Thời gian lưu trữ trên hạ tầng tốc độ cao	Thời gian lưu trữ trên hạ tầng tốc độ trung bình	Thời gian lưu trữ trên hậ tầng tốc độ thấp (backup offline)	Tần suất backup
+Dữ liệu khách hàng 
+01	customer	Thông tin khách hàng	Bảng	1 năm	5 năm	Lâu dài	Hàng ngày
+02	contract	Thông tin hợp đồng	Bảng	1 năm	5 năm	Lâu dài	Hàng ngày
+Dữ liệu sản phẩm
+03	Product_offer	Loại hàng hóa	Bảng	1 năm	2 năm	5 năm	Hàng tuần
+7.	THIẾT KẾ CÁC YẾU TỐ PHI CHỨC NĂNG
+7.1	Hiệu năng
+Hệ thống được thiết kế để đảm bảo xử lý near-realtime.
+7.2	Mức độ tin cậy và Tính sẵn sàng của hệ thống
+Hệ thống sử dụng docker với cơ chế watchdog, kết hợp nginx, đảm bảo các hệ thống Portal và webservice luôn sẵn sàng, khó bị down.
+7.3	Khả năng bảo trì
+Hệ thống được phân tách thành các module riêng biệt, dễ dàng bảo trì và cập nhật riêng cho từng thành phần.
+7.4	An toàn bảo mật và đảm bảo tính riêng tư
+-	Portal không tương tác trực tiếp với Database và phải thông qua Webservice (API) với các nghiệp vụ được định nghĩa trước.
+-	Kết nối giữa Frontend và các API được xác thực thông qua Oauth Server và được mã hóa HTTPS / SSL.
+-	Xác thực user của hệ thống thông qua Authentication Server – SSO.
+-	User và ứng dụng được phân quyền truy cập tài nguyên.
+7.5	Khả năng hỗ trợ đa ngôn ngữ
+Hiện tại hệ thống chưa hỗ trợ đa ngôn ngữ.
+7.6	Các yếu tố khác
+N/A
+8.	THIẾT KẾ CẤU HÌNH VÀ ĐÓNG GÓI VẬT LÝ
+8.1	Thiết kế cấu hình
+8.2	Thiết kế đóng gói
+8.3	Cập nhật Database
+Khởi tạo các bảng tương ứng của chức năng quản lý báo cáo:
+-	report_detail 
+Tạo mới collection
+-	report_group
+	Lưu thông tin các loại báo cáo
+•	Khởi tạo
+/* 1 */
+{
+    "_id" : ObjectId("66fa2dbbd920bb0794c5ccb9"),
+    "name" : "Host Coverage",
+    "code" : "RG01",
+    "description" : "Host Coverage",
+    "status" : 1,
+    "__v" : 0,
+    "order" : 1
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("66fa2f3e9a27ab8d30782856"),
+    "name" : "Content Coverage",
+    "code" : "RG02",
+    "description" : "Content Coverage",
+    "status" : 0,
+    "__v" : 0,
+    "order" : 4
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("66fa2f459a27ab8d30782858"),
+    "name" : "Content Quality",
+    "code" : "RG03",
+    "description" : "Content Quality",
+    "status" : 0,
+    "__v" : 0,
+    "order" : 3
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("66fa2f4f9a27ab8d3078285a"),
+    "name" : "User Coverage",
+    "code" : "RG04",
+    "description" : "User Coverage",
+    "status" : 1,
+    "__v" : 0,
+    "order" : 2
+}
+-	report_item
+	Lưu các thông tin param
+•	Khởi tạo
+/* 1 */
+{
+    "_id" : ObjectId("66fa4df3c56a1cb468ccb261"),
+    "isDefault" : 1,
+    "name" : "Number of active hosts by product",
+    "groupCode" : "RG01",
+    "description" : "Number of active hosts by product",
+    "status" : 1,
+    "param" : {
+        "type" : "entity_count_by_product",
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-01-01",
+        "limit" : 50,
+        "sort" : "desc",
+        "entities" : [ 
+            "Host"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 3,
+            "name" : "One month ago"
+        },
+        "behaviors" : [],
+        "sortBy" : "total"
+    },
+    "__v" : 0
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("66fa4e1ec56a1cb468ccb263"),
+    "isDefault" : 1,
+    "name" : "Number of active hosts by behavior",
+    "groupCode" : "RG01",
+    "description" : "Number of active hosts by behavior",
+    "status" : 1,
+    "param" : {
+        "type" : "entity_count_by_behavior",
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-01-01",
+        "limit" : 50,
+        "sort" : "desc",
+        "entities" : [ 
+            "Host"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 4,
+            "name" : "One Year ago"
+        },
+        "sortBy" : "total",
+        "behaviors" : []
+    },
+    "__v" : 0
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("66fa4e57c56a1cb468ccb265"),
+    "isDefault" : 1,
+    "name" : "Number of missing behaviors by host",
+    "groupCode" : "RG01",
+    "description" : "Number of missing behaviors by host",
+    "status" : 1,
+    "param" : {
+        "type" : "behavior_loss_count_by_product",
+        "limit" : 10,
+        "sort" : "desc",
+        "entities" : [ 
+            "Host"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 2,
+            "name" : "One Week ago"
+        },
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-05-01",
+        "sortBy" : "loss"
+    },
+    "__v" : 0
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("66fa509a7a0a345be41694e7"),
+    "isDefault" : 1,
+    "name" : "Number of host have missing behavior ratio over 30% by product",
+    "groupCode" : "RG01",
+    "description" : "Number of hosts have missing behavior ratio over 30% by product",
+    "status" : 1,
+    "param" : {
+        "type" : "behavior_loss_percentage",
+        "limit" : 50,
+        "sort" : "desc",
+        "products" : [],
+        "timeFrame" : {
+            "key" : 1,
+            "name" : "One Hour ago"
+        },
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-05-01",
+        "sortBy" : "loss",
+        "lossThreshold" : 0.8,
+        "entities" : [ 
+            "Host"
+        ]
+    },
+    "__v" : 0
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("6704f17fbd7a865054dd2fb9"),
+    "isDefault" : 1,
+    "name" : "Number of missing behaviors by user",
+    "groupCode" : "RG04",
+    "description" : "Number of missing behaviors by host",
+    "status" : 1,
+    "param" : {
+        "type" : "behavior_loss_count_by_product",
+        "limit" : 10,
+        "sort" : "desc",
+        "entities" : [ 
+            "User"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 2,
+            "name" : "One Week ago"
+        },
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-05-01",
+        "sortBy" : "loss"
+    },
+    "__v" : 0
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("6704f17fbd7a865054dd2fba"),
+    "isDefault" : 1,
+    "name" : "Number of active user by product",
+    "groupCode" : "RG04",
+    "description" : "Number of active hosts by product",
+    "status" : 1,
+    "param" : {
+        "type" : "entity_count_by_product",
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-01-01",
+        "limit" : 50,
+        "sort" : "desc",
+        "entities" : [ 
+            "User"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 3,
+            "name" : "One month ago"
+        },
+        "behaviors" : [],
+        "sortBy" : "total"
+    },
+    "__v" : 0
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("6704f17fbd7a865054dd2fbb"),
+    "isDefault" : 1,
+    "name" : "Number of active user by behavior",
+    "groupCode" : "RG04",
+    "description" : "Number of active hosts by behavior",
+    "status" : 1,
+    "param" : {
+        "type" : "entity_count_by_behavior",
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-01-01",
+        "limit" : 50,
+        "sort" : "desc",
+        "entities" : [ 
+            "User"
+        ],
+        "products" : [],
+        "timeFrame" : {
+            "key" : 4,
+            "name" : "One Year ago"
+        },
+        "sortBy" : "total",
+        "behaviors" : []
+    },
+    "__v" : 0
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("6704f17fbd7a865054dd2fbc"),
+    "isDefault" : 1,
+    "name" : "Number of user have missing behavior ratio over 30% by product",
+    "groupCode" : "RG04",
+    "description" : "Number of hosts have missing behavior ratio over 30% by product",
+    "status" : 1,
+    "param" : {
+        "type" : "behavior_loss_percentage",
+        "limit" : 50,
+        "sort" : "desc",
+        "products" : [],
+        "timeFrame" : {
+            "key" : 1,
+            "name" : "One Hour ago"
+        },
+        "startTime" : "2024-01-01",
+        "endTime" : "2024-05-01",
+        "sortBy" : "loss",
+        "lossThreshold" : 0.8,
+        "entities" : [ 
+            "User"
+        ]
+    },
+    "__v" : 0
+}
+
+9.	PHỤ LỤC
+
+
+•	
