@@ -1,0 +1,21 @@
+api post chat-messages
+body
+{
+    "inputs": {},
+    "query": "What are the specs of the iPhone 13 Pro Max?",
+    "response_mode": "streaming",
+    "conversation_id": "",
+    "user": "abc-123",
+    "files": [
+      {
+        "type": "image",
+        "transfer_method": "remote_url",
+        "url": "https://cloud.dify.ai/logo/logo-site.png"
+      }
+    ]
+}
+
+response
+data: {"event": "workflow_started", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "workflow_id": "dfjasklfjdslag", "sequence_number": 1, "created_at": 1679586595}}
+  data: {"event": "node_started", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data": {"id": "5ad498-f0c7-4085-b384-88cbe6290", "node_id": "dfjasklfjdslag", "node_type": "start", "title": "Start", "index": 0, "predecessor_node_id": "fdljewklfklgejlglsd", "inputs": {}, "created_at": 1679586595}}
+  data: {"event": "node_finished", "task_id": "5ad4cb98-f0c7-4085-b384-88c403be6290", "workflow_run_id": "5ad498-f0c7-4085-b384-88cbe6290", "data"
