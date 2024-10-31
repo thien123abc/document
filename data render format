@@ -1,0 +1,124 @@
+
+====sau khi đã được chuyển đổi từ chunk ra và đã dc chuyển từ markdown sang chuỗi html
+
+=======================================nếu dữ liệu trả về từ chatbot k có dạng bảng
+raw_html_list ['<p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>']
+MainScreen.tsx:309 raw_html <p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table>
+MainScreen.tsx:312 raw_html_list_tail ['<p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table>']
+MainScreen.tsx:316 raw_html_table <p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table></table></div>
+MainScreen.tsx:150 mess=> (2) [{…}, {…}]
+MainScreen.tsx:305 raw_html_list ['<p>hi</p>']
+MainScreen.tsx:309 raw_html <p>hi</p><div id="scroll-view-table"><table>
+MainScreen.tsx:312 raw_html_list_tail ['<p>hi</p><div id="scroll-view-table"><table>']
+MainScreen.tsx:316 raw_html_table <p>hi</p><div id="scroll-view-table"><table></table></div>
+MainScreen.tsx:305 raw_html_list ['<p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p>']
+MainScreen.tsx:309 raw_html <p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table>
+MainScreen.tsx:312 raw_html_list_tail ['<p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table>']
+MainScreen.tsx:316 raw_html_table <p>Xin chào! Tôi có thể giúp gì cho bạn hôm nay?</p><div id="scroll-view-table"><table></table></div>
+
+
+==================================nếu dữ liệu có bảng trả về
+chatbot trả về dữ liệu dạng bảng như sau:
+<p>Để hiển thị dữ liệu dưới dạng bảng, bạn có thể sử dụng Markdown. Dưới đây là một ví dụ về cách tạo bảng đơn giản:</p>
+<pre><code>| Cột 1 | Cột 2 | Cột 3 |
+|-------|-------|-------|
+| Dữ liệu 1 | Dữ liệu 2 | Dữ liệu 3 |
+| Dữ liệu 4 | Dữ liệu 5 | Dữ liệu 6 |
+| Dữ liệu 7 | Dữ liệu 8 | Dữ liệu 9 |
+</code></pre>
+<p>Khi hiển thị, bảng sẽ trông như thế này:</p>
+<table>
+<thead>
+<tr>
+<th>Cột 1</th>
+<th>Cột 2</th>
+<th>Cột 3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dữ liệu 1</td>
+<td>Dữ liệu 2</td>
+<td>Dữ liệu 3</td>
+</tr>
+<tr>
+<td>Dữ liệu 4</td>
+<td>Dữ liệu 5</td>
+<td>Dữ liệu 6</td>
+</tr>
+<tr>
+<td>Dữ liệu 7</td>
+<td>Dữ liệu 8</td>
+<td>Dữ liệu 9</td>
+</tr>
+</tbody></table>
+<p>Nếu bạn có dữ liệu cụ thể mà bạn muốn hiển thị dưới dạng bảng, hãy cung cấp thông tin chi tiết và tôi sẽ giúp bạn tạo bảng đó!</p>
+
+===========thì cách xử lý ui trong file html
+raw_html_list (2) ['<p>Để hiển thị dữ liệu dưới dạng bảng, bạn có thể …\n<p>Khi hiển thị, bảng sẽ trông như thế này:</p>\n', '\n<thead>\n<tr>\n<th>Cột 1</th>\n<th>Cột 2</th>\n<th>Cộ… tin chi tiết và tôi sẽ giúp bạn tạo bảng đó!</p>']
+MainScreen.tsx:309 raw_html <p>Để hiển thị dữ liệu dưới dạng bảng, bạn có thể sử dụng Markdown. Dưới đây là một ví dụ về cách tạo bảng đơn giản:</p>
+<pre><code>| Cột 1 | Cột 2 | Cột 3 |
+|-------|-------|-------|
+| Dữ liệu 1 | Dữ liệu 2 | Dữ liệu 3 |
+| Dữ liệu 4 | Dữ liệu 5 | Dữ liệu 6 |
+| Dữ liệu 7 | Dữ liệu 8 | Dữ liệu 9 |
+</code></pre>
+<p>Khi hiển thị, bảng sẽ trông như thế này:</p>
+<div id="scroll-view-table"><table>
+<thead>
+<tr>
+<th>Cột 1</th>
+<th>Cột 2</th>
+<th>Cột 3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dữ liệu 1</td>
+<td>Dữ liệu 2</td>
+<td>Dữ liệu 3</td>
+</tr>
+<tr>
+<td>Dữ liệu 4</td>
+<td>Dữ liệu 5</td>
+<td>Dữ liệu 6</td>
+</tr>
+<tr>
+<td>Dữ liệu 7</td>
+<td>Dữ liệu 8</td>
+<td>Dữ liệu 9</td>
+</tr>
+</tbody></table>
+<p>Nếu bạn có dữ liệu cụ thể mà bạn muốn hiển thị dưới dạng bảng, hãy cung cấp thông tin chi tiết và tôi sẽ giúp bạn tạo bảng đó!</p><div id="scroll-view-table"><table>
+MainScreen.tsx:312 raw_html_list_tail (2) ['<p>Để hiển thị dữ liệu dưới dạng bảng, bạn có thể …>Dữ liệu 8</td>\n<td>Dữ liệu 9</td>\n</tr>\n</tbody>', '\n<p>Nếu bạn có dữ liệu cụ thể mà bạn muốn hiển thị…o bảng đó!</p><div id="scroll-view-table"><table>']
+MainScreen.tsx:316 raw_html_table <p>Để hiển thị dữ liệu dưới dạng bảng, bạn có thể sử dụng Markdown. Dưới đây là một ví dụ về cách tạo bảng đơn giản:</p>
+<pre><code>| Cột 1 | Cột 2 | Cột 3 |
+|-------|-------|-------|
+| Dữ liệu 1 | Dữ liệu 2 | Dữ liệu 3 |
+| Dữ liệu 4 | Dữ liệu 5 | Dữ liệu 6 |
+| Dữ liệu 7 | Dữ liệu 8 | Dữ liệu 9 |
+</code></pre>
+<p>Khi hiển thị, bảng sẽ trông như thế này:</p>
+<div id="scroll-view-table"><table>
+<thead>
+<tr>
+<th>Cột 1</th>
+<th>Cột 2</th>
+<th>Cột 3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Dữ liệu 1</td>
+<td>Dữ liệu 2</td>
+<td>Dữ liệu 3</td>
+</tr>
+<tr>
+<td>Dữ liệu 4</td>
+<td>Dữ liệu 5</td>
+<td>Dữ liệu 6</td>
+</tr>
+<tr>
+<td>Dữ liệu 7</td>
+<td>Dữ liệu 8</td>
+<td>Dữ liệu 9</td>
+</tr>
+</tbody></table></div>
+<p>Nếu bạn có dữ liệu cụ thể mà bạn muốn hiển thị dưới dạng bảng, hãy cung cấp thông tin chi tiết và tôi sẽ giúp bạn tạo bảng đó!</p><div id="scroll-view-table"><table></table></div>
