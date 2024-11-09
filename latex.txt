@@ -1,0 +1,106 @@
+ <p>Dưới đây là một số công thức toán học từ cơ bản đến phức tạp:</p>
+<h3>Công thức toán học cơ bản:</h3>
+<ol>
+<li><p><strong>Cộng, trừ, nhân, chia:</strong></p>
+<ul>
+<li>Cộng: ( a + b )</li>
+<li>Trừ: ( a - b )</li>
+<li>Nhân: ( a \times b )</li>
+<li>Chia: ( \frac{a}{b} )</li>
+</ul>
+</li>
+<li><p><strong>Bình phương và căn bậc hai:</strong></p>
+<ul>
+<li>Bình phương: ( a^2 )</li>
+<li>Căn bậc hai: ( \sqrt{a} )</li>
+</ul>
+</li>
+<li><p><strong>Công thức diện tích và chu vi:</strong></p>
+<ul>
+<li>Diện tích hình chữ nhật: ( A = l \times w )</li>
+<li>Chu vi hình chữ nhật: ( P = 2(l + w) )</li>
+<li>Diện tích hình tròn: ( A = \pi r^2 )</li>
+<li>Chu vi hình tròn: ( C = 2\pi r )</li>
+</ul>
+</li>
+</ol>
+<h3>Công thức toán học phức tạp:</h3>
+<ol>
+<li><p><strong>Đạo hàm:</strong></p>
+<ul>
+<li>Đạo hàm của ( f(x) = x^n ) là ( f&#39;(x) = nx^{n-1} )</li>
+</ul>
+</li>
+<li><p><strong>Tích phân:</strong></p>
+<ul>
+<li>Tích phân của ( f(x) = x^n ) là ( \int x^n , dx = \frac{x^{n+1}}{n+1} + C )</li>
+</ul>
+</li>
+<li><p><strong>Phương trình bậc hai:</strong></p>
+<ul>
+<li>Nghiệm của phương trình ( ax^2 + bx + c = 0 ) là ( x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} )</li>
+</ul>
+</li>
+<li><p><strong>Công thức Euler:</strong></p>
+<ul>
+<li>( e^{i\pi} + 1 = 0 )</li>
+</ul>
+</li>
+<li><p><strong>Biến đổi Fourier:</strong></p>
+<ul>
+<li>( F(\omega) = \int_{-\infty}^{\infty} f(t) e^{-i\omega t} , dt )</li>
+</ul>
+</li>
+</ol>
+<p>Nếu bạn cần thêm thông tin hoặc giải thích chi tiết về bất kỳ công thức nào, hãy cho tôi biết!</p>
+
+
+========yêu cầu===============
+Cho phép hiển thị các biểu thức có chứa ký hiệu toán học, trong đó:
+
+Font size không thay đổi so với nội dung khác
+Hiển thị ở chế đố inline hoặc block
+Inline (nội dòng): Khi biểu thức toán học nằm trong dòng văn bản, font size nên giữ tỷ lệ phù hợp với kích thước của văn bản xung quanh, thường là 100% - 110% so với font thông thường.
+Block (khối riêng biệt): Các biểu thức toán học dạng block nên lớn hơn khoảng 10%-15% so với font thông thường, thường ở mức 18px-20px.
+Font color: không thay đổi sao với font colow mặc định
+Typo: Sử dụng font không chân (sans-serif) như Arial, Helvetica, hoặc Roboto.
+Mô tả cú pháp mapping:
+
+Markdown cơ bản không hỗ trợ trực tiếp biểu thức toán học, nhưng có thể dùng các công cụ như MathJax hoặc KaTeX để hiển thị các công thức phức tạp.
+
+
+
+
+
+=====================Link=========================
+ho phép hiển thị nội dung text có chứa text link trong văn bản.
+
+Liên kết phải được render màu xanh và có khả năng click để điều hướng đến URL.
+
+Onclick: Blank và điều hướng người dùng sang link đích khi nhấn vào text link.
+
+Hover: Khi hover vào text link sẽ hiển thị cursor pointer và hiển thị nội dung url address bên dưới màn hình thiết bị
+
+Note: Cho phép copy
+Mô tả cú pháp mapping:
+
+[Link text](URL)=>	<a href="URL">Link text</a>
+ví dụ: (https://duckduckgo.com).
+
+
+
+======================Ảnh======================
+Hiển thị nội dung có chứa hình ảnh theo thông tin dữ liệu server trả về và hiển thị trong câu trả lời của bot.
+
+Kích thước ảnh: Mặc định crop theo kích thước 160px X 160px
+
+Hình ảnh trả về dưới dạng format ảnh: JPG, PNG, JPEG
+
+Onclick:
+
+Chuột trái: Hiển thị popup hiển thị ảnh chi tiết với kích thước thực
+Hiển thị full ảnh theo tỷ lệ thực, responsive theo chiều ngang hệ thống vSOC
+Mặc định hiển thị button:
+Đóng: Thoát khỏi view ảnh toàn màn hình
+Tải xuống: Tải ảnh xuống thiết bị người dùng
+Chuột phải: Hiển thị popover tính năng mặc định trên thiết bị
