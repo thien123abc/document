@@ -144,3 +144,34 @@ MainScreen.tsx:640 mark Dưới đây là một số công thức toán học c�
    Trong đó \( \bar{x} \) là giá trị trung bình, \( x_1, x_2, \ldots, x_n \) là các giá trị và \( n \) là số lượng giá trị.
 
 Nếu bạn cần thêm công thức nào khác, hãy cho tôi biết nhé!
+
+===================================code block=================================
+item <p>Dưới đây là một ví dụ về đoạn mã JavaScript đơn giản để tính tổng hai số:</p>
+<pre><code class="language-javascript">// Hàm tính tổng hai số
+function tinhTong(a, b) {
+    return a + b;
+}
+
+// Sử dụng hàm và hiển thị kết quả
+let soThuNhat = 5;
+let soThuHai = 10;
+let tong = tinhTong(soThuNhat, soThuHai);
+console.log(&quot;Tổng của hai số là: &quot; + tong);
+</code></pre>
+<p>Nếu bạn cần thêm thông tin hoặc có câu hỏi nào khác, hãy cho tôi biết!</p>
+MainScreen.tsx:641 mark Dưới đây là một ví dụ về đoạn mã JavaScript đơn giản để tính tổng hai số:
+
+```javascript
+// Hàm tính tổng hai số
+function tinhTong(a, b) {
+    return a + b;
+}
+
+// Sử dụng hàm và hiển thị kết quả
+let soThuNhat = 5;
+let soThuHai = 10;
+let tong = tinhTong(soThuNhat, soThuHai);
+console.log("Tổng của hai số là: " + tong);
+```
+
+Nếu bạn cần thêm thông tin hoặc có câu hỏi nào khác, hãy cho tôi biết!
