@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <textarea id="myTextArea" rows="5" cols="50" style="position: relative;" ></textarea>
+<div id="cursorPosition" style="position: absolute;">
+    -
+</div>
+<div id="mirror" style="white-space: pre-wrap; position: absolute; overflow-y: auto;word-break: break-word;"></div>
+<div>
+
+    
+</div>
+
+<script>
+    const div = document.getElementById('mirror');
+    function autoScrollToBottom() {
+            div.scrollTop = div.scrollHeight;
+        }
+
+
+    const textArea = document.getElementById('myTextArea');
+    const cursorPosition = document.getElementById('cursorPosition');
+    const mirror = document.getElementById('mirror');
+
+    function updateCursorPosition(e) {
+       
+        autoScrollToBottom()
+        const cursorPos = textArea.selectionStart;
+        const textBeforeCursor = textArea.value.substring(0, cursorPos);
+        // console.log('text',textBeforeCursor);
+        // console.log('scrollHeight',mirror.scrollHeight);
+        // console.log('offsetHeight',mirror.offsetHeight);
+        // console.log('scrollHeight',textArea.scrollHeight);
+        // console.log('offsetHeight',textArea.offsetHeight);
+
+        // Đặt nội dung của div mirror để mô phỏng textArea
+        mirror.textContent = textBeforeCursor||'\u200B';
+
+        // Sao chép style của textarea vào div mirror để nó hiển thị giống hệt
+        const style = window.getComputedStyle(textArea);
+        mirror.style.font = style.font;
+        mirror.style.padding = style.padding;
+        mirror.style.border = style.border;
+        mirror.style.width = '367px';
+        mirror.style.maxHeight = '75px';
+        mirror.style.minHeight = '75px';
+        mirror.style.lineHeight = style.lineHeight;
+        mirror.style.scrollHeight=textArea.scrollHeight
+        mirror.style.offsetHeight=textArea.offsetHeight
+
+        if(e.key==='Enter'){
+            // console.log('enter');
+          
+            mirror.textContent=mirror.textContent+'\u200B'
+            autoScrollToBottom()
+        }
+        if(e.key === 'Backspace'){
+           
+            autoScrollToBottom();
+        // if(mirror.scrollHeight>mirror.offsetHeight)
+        // cursorPosition.style.top='156px'
+        }
+       
+
+        // Tạo một span làm dấu để xác định vị trí con trỏ
+        const caretSpan = document.createElement('span');
+        caretSpan.textContent = '\u200B';  // Dấu caret tạm thời
+        mirror.appendChild(caretSpan);
+
+        // Tính toán vị trí của caretSpan
+        const caretRect = caretSpan.getBoundingClientRect();
+        const textAreaRect = textArea.getBoundingClientRect();
+
+        // Di chuyển phần tử cursorPosition theo vị trí của con trỏ trong textarea
+        cursorPosition.style.top = `${caretRect.top + window.scrollY}px`;
+        cursorPosition.style.left = `${caretRect.left + window.scrollX}px`;
+
+        console.log('scrolly',textArea.scrollY);
+        console.log('left',mirror.scrollY);
+
+        // Xóa caretSpan khỏi mirror
+        mirror.removeChild(caretSpan);
+    }
+
+    // Gọi hàm update khi nhập văn bản hoặc click chuột
+    textArea.addEventListener('input', updateCursorPosition);
+    textArea.addEventListener('click', updateCursorPosition);
+    textArea.addEventListener('keyup', updateCursorPosition);
+    
+   
+</script>
+</body>
+
+</html>
