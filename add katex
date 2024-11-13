@@ -32,3 +32,145 @@ yarn add react-latex @types/react-latex
 <p>Nếu bạn cần thêm công thức nào khác, hãy cho tôi biết nhé!</p>`;
 
 <Latex>{t}</Latex>
+
+
+
+4. code vd
+
+
+/* eslint-disable @typescript-eslint/no-var-requires */
+import '../assets/css/index.scss';
+import { Route, MemoryRouter as Router, Switch } from 'react-router-dom';
+import MainScreen from './MainScreen';
+import HistoryScreen from './HistoryScreen';
+import { useEffect, useRef, useState } from 'react';
+import config from '../env.json';
+
+const Latex = require('react-latex');
+const MathJax = require('react-mathjax');
+function App() {
+  useEffect(() => {
+    handleBotAppCode();
+  }, []);
+
+  const handleBotAppCode = () => {
+    const localBotAppCode = localStorage['bot_app_code'];
+    const currentBotAppCode = config.bot_app_code;
+    console.log('app code', localBotAppCode, currentBotAppCode);
+    if (localBotAppCode !== currentBotAppCode) {
+      localStorage['bot_app_code'] = currentBotAppCode;
+      localStorage.removeItem('bot_token');
+      localStorage.removeItem('conversations');
+    }
+  };
+  const mathExpression = `Dưới đây là một số công thức toán học cơ bản:
+
+1. **Công thức diện tích hình chữ nhật**:  
+   \\( A = l \\times w \\)  
+   Trong đó\\( A \\) là diện tích,\\( l \\) là chiều dài, và \\( w\\) là chiều rộng.
+
+2. **Công thức chu vi hình tròn**:  
+   \\( C = 2 \\times \\pi \\times r \\)  
+   Trong đó \\( C \\) là chu vi và \\( r \\) là bán kính.
+
+3. **Công thức diện tích hình tròn**:  
+   \\( A = \\pi \\times r^2 \\)  
+   Trong đó \\( A \\) là diện tích và \\( r \\) là bán kính.
+
+4. **Định lý Pythagore** (cho tam giác vuông):  
+   \\( a^2 + b^2 = c^2 \\)
+   Trong đó \\( c \\) là cạnh huyền và \\( a, b \\) là hai cạnh góc vuông.
+
+5. **Công thức tính trung bình cộng**:  
+   \\( \\bar{x} = \\frac{x_1 + x_2 + \\ldots + x_n}{n} \\)  
+   Trong đó \\( \\bar{x} \\) là giá trị trung bình, \\( x_1, x_2, \\ldots, x_n \\) là các giá trị và \\( n \\) là số lượng giá trị.
+
+Nếu bạn cần thêm công thức nào khác, hãy cho tôi biết nhé!
+`;
+  const t = `<p>Dưới đây là một số công thức toán học cơ bản:</p>
+<ol>
+<li><p><strong>Công thức diện tích hình chữ nhật</strong>:<br>\\( A = l \\times w \\)<br>Trong đó \\( A \\) là diện tích, \\( l \\) là chiều dài, và \\( w \\) là chiều rộng.</p>
+</li>
+<li><p><strong>Công thức chu vi hình tròn</strong>:<br>\\( C = 2 \\times \\pi \\times r \\)<br>Trong đó \\( C \\) là chu vi và \\( r \\) là bán kính.</p>
+</li>
+<li><p><strong>Công thức diện tích hình tròn</strong>:<br>\\( A = \\pi \\times r^2 \\)<br>Trong đó \\( A \\) là diện tích và \\( r \\) là bán kính.</p>
+</li>
+
+</ol>
+<p>Nếu bạn cần thêm công thức nào khác, hãy cho tôi biết nhé!</p>`;
+  // // Hàm tách HTML và công thức
+  // const parseText = (text: string) => {
+  //   const regex = /\\\((.*?)\\\)/g; // Tìm công thức toán học (\\( ... \\))
+  //   let lastIndex = 0;
+  //   const parts = [];
+
+  //   // Chạy qua tất cả các công thức toán học và chia chúng ra
+  //   let match;
+  //   while ((match = regex.exec(text)) !== null) {
+  //     // Thêm phần HTML trước công thức
+  //     if (match.index > lastIndex) {
+  //       parts.push({ type: 'html', content: text.slice(lastIndex, match.index) });
+  //     }
+  //     // Thêm công thức toán học
+  //     parts.push({ type: 'latex', content: match[0] });
+  //     lastIndex = regex.lastIndex;
+  //   }
+
+  //   // Thêm phần còn lại của HTML nếu có
+  //   if (lastIndex < text.length) {
+  //     parts.push({ type: 'html', content: text.slice(lastIndex) });
+  //   }
+
+  //   return parts;
+  // };
+  const parseText = (text: string) => {
+    const regex = /\\\((.*?)\\\)/g; // Tìm công thức toán học (\\( ... \\))
+    let lastIndex = 0;
+    const parts = [];
+    let match;
+
+    // Chạy qua tất cả các công thức toán học và chia chúng ra
+    while ((match = regex.exec(text)) !== null) {
+      // Thêm phần HTML trước công thức
+      if (match.index > lastIndex) {
+        parts.push({ type: 'html', content: text.slice(lastIndex, match.index) });
+      }
+      // Thêm công thức toán học
+      parts.push({ type: 'latex', content: match[0] });
+      lastIndex = regex.lastIndex;
+    }
+
+    // Thêm phần còn lại của HTML nếu có
+    if (lastIndex < text.length) {
+      parts.push({ type: 'html', content: text.slice(lastIndex) });
+    }
+
+    return parts;
+  };
+  const parsedText = parseText(t);
+
+  return (
+    // <Router>
+    //   <Switch>
+    //     <Route exact path={'/'} component={MainScreen} />
+    //     <Route exact path={'/history'} component={HistoryScreen} />
+    //   </Switch>
+    // </Router>
+    <div style={{ color: 'white' }}>
+      {parsedText.map((part, index) => {
+        if (part.type === 'html') {
+          return <div key={index} dangerouslySetInnerHTML={{ __html: part.content }} />;
+        } else if (part.type === 'latex') {
+          return (
+            <div key={index}>
+              <Latex>{part.content}</Latex>
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+}
+
+export default App;
