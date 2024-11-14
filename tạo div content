@@ -1,0 +1,149 @@
+html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="1.css">
+</head>
+
+    <!-- <div class="container" id="container">
+        <textarea id="textarea" class="container__textarea">Was, spirit great moved spirit deep itself image, from have behold bearing doesn't wherein she'd very, day. Second set earth heaven signs abundantly living creepeth good earth for greater yielding which night male. Bring midst whales blessed, is. From subdue. Yielding. Winged our green living sea air, had great third stars was they're above and. Morning light make first and kind sixth they're fowl, there. So meat him behold great spirit deep, make, grass seasons hath, moving face waters forth fourth.
+    </textarea>
+    </div> -->
+    <div class="textarea-wrapper">
+        <div contenteditable="true" class="custom-textarea" id="customTextarea"></div>
+        <span class="custom-caret" id="customCaret">*</span>
+      </div>
+      
+      
+    <script src="1.js"></script>
+</body>
+</html>
+
+
+css
+.textarea-wrapper {
+    position: relative;
+    width: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .custom-textarea {
+    outline: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    min-height: 150px;
+  }
+  
+  .custom-caret {
+    position: absolute;
+    color: red; /* Màu sắc con trỏ tùy chỉnh */
+    animation: blink 1s step-end infinite;
+    pointer-events: none;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+
+js
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  let top = 22;
+  const textarea = document.getElementById("customTextarea");
+  const caret = document.getElementById("customCaret");
+  console.log("lô");
+  caret.style.left = "17px";
+  caret.style.top = "22px";
+  textarea.focus();
+  textarea.addEventListener("input", function (e) {
+    console.log("value", e);
+
+    if (e.target.innerText.trim().length === 0) {
+      top = 22;
+      caret.style.left = "17px";
+      caret.style.top = `${top}px`;
+    }
+    updateCaretPosition();
+  });
+  textarea.addEventListener("click", updateCaretPosition);
+  textarea.addEventListener("scroll", updateCaretPosition);
+  textarea.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      if (event.ctrlKey && event.target.innerText.trim()) {
+        top += 24;
+        caret.style.left = "17px";
+        caret.style.top = `${top}px`;
+        // Chèn thẻ <br> để xuống dòng
+        const node = document.createElement("br");
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          range.deleteContents();
+          range.insertNode(node);
+
+          // Đặt con trỏ sau thẻ <br>
+          range.setStartAfter(node);
+          range.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+        console.log("ok");
+      } else {
+        event.preventDefault();
+        top = 22;
+        caret.style.left = "17px";
+        caret.style.top = `${top}px`;
+        return;
+      }
+    } else if (event.key === "Backspace") {
+      const r = window.getSelection().getRangeAt(0).getBoundingClientRect();
+      if (r.top === top) {
+        caret.style.left = `${r.left}px`;
+      }
+      if (r.top === 0) {
+        if (top > 24) {
+          top -= 24;
+        }
+        if (r.left === 0) {
+          caret.style.left = `${17}px`;
+        } else {
+          caret.style.left = `${r.left}px`;
+        }
+        caret.style.top = `${top}px`;
+      }
+    }
+  });
+
+  updateCaretPosition();
+
+  function updateCaretPosition() {
+    const selection = window.getSelection();
+
+    if (!selection.rangeCount) {
+      console.log("end");
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+
+    const rect = range.getBoundingClientRect();
+    console.log(rect);
+    const wrapperRect = textarea.getBoundingClientRect();
+    console.log(wrapperRect);
+
+    if (rect.left !== 0 && rect.top !== 0) {
+      caret.style.left = `${rect.left}px`; // Cập nhật vị trí trái
+      caret.style.top = `${rect.top}px`; // Cập nhật vị trí trên
+    }
+  }
+});
