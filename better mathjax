@@ -1,0 +1,96 @@
+https://stackoverflow-com.translate.goog/questions/62439610/display-math-formulas-typed-in-latex-or-asciimath?_x_tr_sl=en&_x_tr_tl=vi&_x_tr_hl=vi&_x_tr_pto=sc
+https://codesandbox.io/p/sandbox/better-react-mathjax-example-latex-forked-jttfzz?file=%2Fsrc%2FApp.js%3A167%2C5&workspaceId=812d5a8b-8fe3-4172-8ba6-33c39d6b70b2
+
+ "better-react-mathjax": "2.0.3",
+
+
+import { MathJax, MathJaxContext } from 'better-react-mathjax';
+import DOMPurify from 'dompurify';
+const config = {
+  loader: { load: ['[tex]/html'] },
+  tex: {
+    packages: { '[+]': ['html'] },
+    inlineMath: [
+      ['$', '$'],
+      ['\\(', '\\)'],
+    ],
+    displayMath: [
+      ['$$', '$$'],
+      ['\\[', '\\]'],
+    ],
+  },
+};
+export default function MarkdownWithMath() {
+  const math = `<p>Dưới đây là một số công thức toán học từ cơ bản đến phức tạp:</p>
+<h3>Công thức toán học cơ bản:</h3>
+<ol>
+<li><p><strong>Cộng, trừ, nhân, chia:</strong></p>
+<ul>
+<li>Cộng: \\( a + b \\)</li>
+<li>Trừ: \\( a - b \\)</li>
+<li>Nhân: \\( a \\times b \\)</li>
+<li>Chia: \\( \\frac{a}{b} \\)</li>
+</ul>
+</li>
+<li><p><strong>Bình phương và căn bậc hai:</strong></p>
+<ul>
+<li>Bình phương: \\( a^2 \\)</li>
+<li>Căn bậc hai: \\( \\sqrt{a} \\)</li>
+</ul>
+</li>
+<li><p><strong>Công thức diện tích và chu vi:</strong></p>
+<ul>
+<li>Diện tích hình chữ nhật: \\( A = l \\times w \\)</li>
+<li>Chu vi hình chữ nhật: \\( P = 2(l + w) \\)</li>
+<li>Diện tích hình tròn: \\( A = \\pi r^2 \\)</li>
+<li>Chu vi hình tròn: \\( C = 2\\pi r \\)</li>
+</ul>
+</li>
+</ol>
+<h3>Công thức toán học phức tạp:</h3>
+<ol>
+<li><p><strong>Đạo hàm:</strong></p>
+<ul>
+<li>Đạo hàm của \\( f(x) = x^n \\) là \\( f&#39;(x) = nx^{n-1} \\)</li>
+</ul>
+</li>
+<li><p><strong>Tích phân:</strong></p>
+<ul>
+<li>Tích phân của \\( f(x) = x^n \\) là \\( \\int x^n , dx = \\frac{x^{n+1}}{n+1} + C \\)</li>
+</ul>
+</li>
+<li><p><strong>Phương trình bậc hai:</strong></p>
+<ul>
+<li>Nghiệm của phương trình \\( ax^2 + bx + c = 0 \\) là \\( x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a} \\)</li>
+</ul>
+</li>
+<li><p><strong>Công thức Euler:</strong></p>
+<ul>
+<li>\\( e^{i\\pi} + 1 = 0 \\)</li>
+</ul>
+</li>
+<li><p><strong>Biến đổi Fourier:</strong></p>
+<ul>
+<li>\\( F(\\omega) = \\int_{-\\infty}^{\\infty} f(t) e^{-i\\omega t} , dt \\)</li>
+</ul>
+</li>
+</ol>
+<p>Nếu bạn cần thêm thông tin hoặc giải thích chi tiết về bất kỳ công thức nào, hãy cho tôi biết!</p>`;
+
+  const sanitizedContent = DOMPurify.sanitize(math);
+
+  return (
+    <MathJaxContext version={3} config={config}>
+      <h2>MathJax example with Latex</h2>
+      <div>
+        <MathJax hideUntilTypeset={'first'}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: sanitizedContent,
+            }}
+          />
+        </MathJax>
+      </div>
+    </MathJaxContext>
+  );
+}
