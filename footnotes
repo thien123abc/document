@@ -1,0 +1,52 @@
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+const markdownContent = `
+Trong đồ án an ninh mạng, việc thiết kế và triển khai các giải pháp bảo mật là rất quan trọng để bảo vệ hệ thống thông tin khỏi các mối đe dọa. Đầu tiên, chúng ta cần xác định các tài sản quan trọng và đánh giá rủi ro liên quan đến chúng[^1]. Sau đó, việc cấu hình các thiết bị bảo mật như tường lửa và hệ thống phát hiện xâm nhập (IDS) sẽ giúp ngăn chặn các cuộc tấn công từ bên ngoài[^2]. Cuối cùng, việc triển khai các công cụ giám sát và phòng thủ sẽ cho phép chúng ta phát hiện và phản ứng kịp thời với các sự cố bảo mật[^3].
+
+[^1]: Tài sản quan trọng có thể bao gồm dữ liệu nhạy cảm, hệ thống máy chủ, và ứng dụng.
+[^2]: Tường lửa giúp kiểm soát lưu lượng mạng và ngăn chặn truy cập trái phép.
+[^3]: Công cụ giám sát giúp theo dõi hoạt động mạng và phát hiện các hành vi bất thường.
+`;
+
+const MyMarkdownComponent = () => {
+  return (
+    <div>
+      <ReactMarkdown children={markdownContent} remarkPlugins={[remarkGfm]} />
+    </div>
+  );
+};
+
+export default MyMarkdownComponent;
+
+
+lưu ý quan trọng: 
+data trả về phải ở dạng [^1] ko được ^1
+phần chú thích bên dưới cũng phải [^1]: chứ ko được 1. hay ^1.
+nhưng do be trả về sai nên cần replace nó
+và khi dùng ReactMarkdown thì ko thể truyền dưới dạng dangerouse nên cần phải kiếm 1 cái regex để check khi nào thì nó thuộc dạng footnotes
+const hasFoot = /(\[\d+\]|\^\d+)/.test(item.message);//chứa ^n or [^n]
+ {hasFoot && (
+                      <ReactMarkdown
+                        children={item.message.replace(/(?<!\[)\^(\d+)(?!\])/g, '[$&]').replace(/(\d+)\./g, '[^$1]:')}
+                        remarkPlugins={[remarkGfm]}
+                      />
+                    )}
+phần css
+sup>a{
+  text-decoration: none;
+  color: #155eef;
+}
+/* Chỉnh sửa hiển thị footnote */
+sup {
+  font-size: 0.8em; /* Điều chỉnh kích thước */
+}
+
+sup::before {
+  content: "[";  /* Thêm dấu mở ngoặc vuông trước số */
+}
+
+sup::after {
+  content: "]";  /* Thêm dấu đóng ngoặc vuông sau số */
+}
