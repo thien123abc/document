@@ -27,20 +27,24 @@ phần chú thích bên dưới cũng phải [^1]: chứ ko được 1. hay ^1.
 nhưng do be trả về sai nên cần replace nó
 và khi dùng ReactMarkdown thì ko thể truyền dưới dạng dangerouse nên cần phải kiếm 1 cái regex để check khi nào thì nó thuộc dạng footnotes
 const hasFoot = /(\[\d+\]|\^\d+)/.test(item.message);//chứa ^n or [^n]
- {hasFoot && (
-                      <ReactMarkdown
-                        children={item.message.replace(/(?<!\[)\^(\d+)(?!\])/g, '[$&]').replace(/(\d+)\./g, '[^$1]:')}
-                        remarkPlugins={[remarkGfm]}
-                      />
+   {hasFoot && (
+                      <p className="item-text-chat" style={{ display: 'inline' }}>
+                        <ReactMarkdown
+                          children={item.message.replace(/(?<!\[)\^(\d+)(?!\])/g, '[$&]').replace(/(\d+)\./g, '[^$1]:')}
+                          remarkPlugins={[remarkGfm]}
+                        />
+                        <span className="streaming"></span>
+                      </p>
                     )}
 phần css
-sup>a{
+up>a{
   text-decoration: none;
-  color: #155eef;
+  color: #155eef!important;
 }
 /* Chỉnh sửa hiển thị footnote */
 sup {
   font-size: 0.8em; /* Điều chỉnh kích thước */
+  color: #155eef!important;
 }
 
 sup::before {
