@@ -1,0 +1,155 @@
+STT	Bước thực hiện	Hiện trạng	Mong muốn	% tái hiện	Dev đánh giá	Giải pháp	Triển khai
+1	"Tạo mới hội thoại
+Đặt câu hỏi thứ nhất
+Tắt mạng
+Sau 20s hiển thị nút pause->nhấn pause
+Bật lại mạng"
+
+*hiện trạng
+"Chatbot dừng phản hồi
+Hỏi tiếp các câu hỏi sau thì đều không nhận được phản hồi nữa mặc dù đã gửi và nhận phản hồi thành công"	
+
+*mong muốn
+Hiển thị được câu trả lời của các câu hỏi sau	0%		
+
+
+
+
+2	"Test từ Câu hỏi thứ 2 trở đi
+- Tắt network cho câu hỏi thứ 2 khi chưa có message_id
+-> Ấn pause
+-> Bật lại mạng
+-> Hỏi tiếp câu hỏi thứ 3"	
+
+*hiện trạng
+"Hiện trạng 1: Câu trả lời 3 bị gộp vào câu trả lời 2, lỗi hiển thị nội dung đan xen, không có nghĩa
+Hiện trạng 2: Vấn gen tiếp nội dung câu 2 nhưng nội dung bị tách thành 2 cục message sau khi thoát ra vào lại"	
+
+*mong muốn:
+Chỉ hiển thị nội dung câu trả lời cho câu 3. Nếu không có cách xử lý để không hiển thị nội dung câu 2 thì câu trả lời cho câu 2 tách riêng và đúng ngữ nghĩa.		
+
+*dev đánh giá
+nguyên nhân: 
+-khi gửi câu hỏi thứ 2, tắt network thì lúc đó api đã được gửi lên server rồi chỉ là nó chưa nhận được response trả về nên thấy pending chứ thực sự lúc gửi câu hỏi rồi mới tắt mạng thì mạng lúc gửi chưa thực sự tắt, vì nếu mất mạng thì api đã bị lỗi đỏ rồi chứ ko phải pending
+-sau đó mở mạng lên gửi câu hỏi thứ 3, thì lúc này sẽ có 2 cái api chat-message(cái lúc nãy đợi và cái hiện tại) chạy song song(có thể 1 trong 2 sẽ chậm hơn cái còn lại 1-2s), mà tại 1 màn chi tiết cuộc hội thoại thì chỉ có thể gửi 1 câu và chờ trả về 1 response thì sau đó mới được hỏi và trả lời tiếp vì nó phải theo quy luật tuần tự lần lượt như vậy, nhưng bây h do có 2 api chạy đồng thời nên khi nó trả về thì sẽ có 1 mảng lưu lại câu hỏi và câu trả lời, lúc này tại cùng 1 vị trí mà nó phải lưu lại 1 lúc 2 câu hỏi và 2 câu trả lời nên sẽ bị trộn lẫn các câu trả lời dẫn đến các kĩ tự bị lẫn vào nên thấy ko có ý nghĩa
+giải pháp:
+-ko cho phép 2 api chat-message được chạy đồng thời vì nó ko khác gì hỏi 1 lúc 2 câu hỏi tại cùng 1 thời điểm trong cùng 1 hội thoại
+-đảm bảo tắt mạng trước khi gửi câu hỏi, chứ nếu gửi xong ms tắt mạng thì trong time đó thực ra câu hỏi đã đc gửi lên server, chỉ là nó chưa có response trả về(vì thực sự nếu mất mạng khi gửi api lên sẽ báo lỗi đỏ chứ ko phải pending)
+-xét 1 khoảng time cho phép bao nhiêu giây đó nếu response chưa trả về cancel api đó luôn để khi có mạng trở lại api đó sẽ ko bị call lại và trả về data
+time hande:
+-"		
+
+
+
+3	"Test từ Câu hỏi thứ 2 trở đi
+
+- Hỏi câu hỏi thứ 2
+-> Tắt network khi chưa có message id 
+-> Bật lại network
+-> Ấn pause
+-> Hỏi tiếp câu thứ 3"	
+
+*hiện trạng
+Đang chỉ gen câu trả lời cho câu hỏi thứ 2 (dù câu 2 đã đc pause), không gen câu trả lời cho câu hỏi 3 (dù đã gửi thành công và có conversation id)	
+
+*mong muốn
+Gen câu trả lời cho câu thứ 3		
+*dev đánh giá
+"nguyên nhân:
+-giống với case 2, do khi hỏi câu thứ 2 và tắt mạng thì api đã dc gửi lên nhưng chưa có response trả về nên nó đang pending, sau đó bật mạng và quá 20s sẽ hiện thị pause, thì khi pause thực chất có 2 cases nữa, case1 là nếu có task_id của câu trả lời trả ra thì mới truyền lên api stop để pause, nhưng case2 là can thiệp thủ công bằng cách cut chuỗi, thì lúc này nếu pause nhưng response của câu thứ 2 chưa trả về, nên chưa có đc task_id, lúc này cho pause là để đổi trạng thái nút pause về send để cho phép nhập câu hỏi khác, và gửi lên thì lúc này đồng thời có 2 api chạy 1 lúc, thì reponse của câu hỏi thứ 2 đang pending lúc nãy đc trả về trước nên sẽ generate ra trước
+giải pháp:
+-"		
+
+time xử lý:
+
+
+
+4	"Test từ Câu hỏi thứ 2 trở đi
+
+- Tắt network cho câu hỏi thứ 2 khi chưa có message_id
+-> Ấn pause
+-> Bật lại mạng
+-> Hỏi tiếp câu hỏi thứ 3"	
+
+*hiện trạng
+"Gen câu trả lời cho câu 2
+1 lúc sau thì biến mất câu hỏi và câu trả lời 3, đồng thời, gen lại câu trả lời cho câu 2.
+Network đã gửi câu 3 "
+
+*mong muốn
+Hiển thị ổn định câu trả lời, không có hiện tượng nhấp nháy và biến mất câu trả lời				
+
+*dev đánh giá
+
+
+
+
+5	"Nhắn tin câu số 2 trở đi
+-> Tắt mạng
+-> Mất nhấp nháy streaming ở khoảng giây thứ 10-15
+-> Hiển thị pause
+-> Nhấn pause
+-> Cắm lại mạng
+-> Hỏi câu 3"	
+
+*hiện trạng
+"Chatbot gen câu trả lời cho câu hỏi số 3
+Đợi 3p không thấy hiện trạng mất và gen lại câu trả lời (như case 4)
+Câu số 2 pause khi mất mạng nhưng cũng không hiển thị câu trả lời, không bị mất"			
+
+*dev đánh giá
+
+
+6	"Nhắn tin câu số 1
+-> Rút mạng"	
+
+*hiện trạng
+"TH1: Hiển thị nút pause sau 20s nhưng không pause được
+-> Cắm lại mạng
+-> Nhấn pause nhưng không pause được
+-> Chatbot gen câu trả lời thành công
+-> Out ra vào lại
+-> Tách câu trả lời thành 2 đoạn và hiển thị sai vị trí button đánh giá
+
+TH2: Không hiển thị nút pause sau 20s
+-> Cắm lại mạng
+-> Không hiển thị nút pause
+-> Out ra vào lại khoảng 2 lần thì không hiển thị nội dung câu hỏi và câu trả lời
+-> Vào lại lần 3 thì hiển thị câu hỏi và câu trả lời thành công và kh còn hiện tượng tách câu trả lời"	
+*mong muốn
+Ổn định nút pause, hiển thị sau 20s bất kể trường hợp gì và có thể sử dụng được			
+
+*dev đánh giá
+
+TH3		"Hiển thị nút pause sau 20s nhưng không nhấn dừng được
+-> Cắm lại mạng
+-> Chatbot tiếp tục gen câu trả lời thứ 1
+-> Đặt câu hỏi số 2
+-> Rút mạng
+-> Hiển thị nút pause sau 20s và nhấn dừng được"	
+
+*mong muốn
+Phải nhấn được nút pause và dừng được phản hồi từ câu 1 -> đánh giá nút pause đang hoạt động chưa ổn định				
+
+*dev đánh giá
+
+
+8	"Test từ Câu hỏi thứ 2 trở đi
+
+- Hỏi câu hỏi thứ 2
+-> Tắt network khi chưa có message id 
+-> Bật lại network
+-> Ấn pause
+-> Hỏi tiếp câu thứ 3"	
+
+*hiên trạng
+"Mất luôn câu hỏi 3 và hiển thị câu trả lời câu hỏi 2
+Sau khoảng 1-2p thì mất câu trả lời 2 và hiển thị lại câu hỏi + câu trả lời 3
+
+Sau khi out ra vào lại thì lại hiển thị câu trả lời 2 và 3 nhưng sai vị trí. Ví trị hiện tại hiển thị câu 2 - câu 3 rồi đến câu trả lời 2 - 3"	
+
+*mong muốn
+"Câu hỏi nào đã dừng thì không hiển thị và hiển thị đúng câu trả lời tương ứng câu hỏi
+Ổn định hiển thị câu trả lời, không có tình trạng ẩn/hiện câu trả lời + câu hỏi"		
+
+*dev đánh giá
