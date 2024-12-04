@@ -56,9 +56,12 @@ time hande:
 Gen câu trả lời cho câu thứ 3		
 *dev đánh giá
 "nguyên nhân:
--giống với case 2, do khi hỏi câu thứ 2 và tắt mạng thì api đã dc gửi lên nhưng chưa có response trả về nên nó đang pending, sau đó bật mạng và quá 20s sẽ hiện thị pause, thì khi pause thực chất có 2 cases nữa, case1 là nếu có task_id của câu trả lời trả ra thì mới truyền lên api stop để pause, nhưng case2 là can thiệp thủ công bằng cách cut chuỗi, thì lúc này nếu pause nhưng response của câu thứ 2 chưa trả về, nên chưa có đc task_id, lúc này cho pause là để đổi trạng thái nút pause về send để cho phép nhập câu hỏi khác, và gửi lên thì lúc này đồng thời có 2 api chạy 1 lúc, thì reponse của câu hỏi thứ 2 đang pending lúc nãy đc trả về trước nên sẽ generate ra trước
+-gần giống với case 2, do khi hỏi câu thứ 2 và tắt mạng thì api đã dc gửi lên nhưng chưa có response trả về nên nó đang pending, sau đó bật mạng và quá 20s sẽ hiện thị pause, thì khi pause thực chất có 2 cases nữa, 
+case1 là nếu có task_id của câu trả lời trả ra thì mới truyền lên api stop để pause, nhưng case2 là can thiệp thủ công bằng cách cut chuỗi, thì lúc này nếu pause nhưng response của câu thứ 2 chưa trả về, 
+nên chưa có đc task_id, lúc này cho pause là để đổi trạng thái nút pause về send để cho phép nhập câu hỏi khác, và gửi lên thì lúc này đồng thời có 2 api chạy 1 lúc, 
+thì reponse của câu hỏi thứ 2 đang pending lúc nãy đc trả về trước nên sẽ generate ra trước
 giải pháp:
--"		
+-Nếu đang pending, user stop thì chỉ có thể cancel api đó luôn(đảm bảo api đó ko trả về response)		
 
 time xử lý:
 
@@ -80,7 +83,9 @@ Network đã gửi câu 3 "
 Hiển thị ổn định câu trả lời, không có hiện tượng nhấp nháy và biến mất câu trả lời				
 
 *dev đánh giá
-
+nguyên nhân: -lý do chính vẫn là vì khi bật lại mạng có 2 api chat-message chạy song song đồng thời, sau khi có data trả về nó lưu vào 1 mảng và re-render nhưng vì gần như trong 1 thời điểm mảng đó được 
+cập nhật 2 data trả về liên tục nên nó re-render 2 lần quá nhanh dẫn đến việc nhấp nháy, vấn đề mất câu hỏi và trả lời 3 là do dữ liệu ở câu 2 trả về đã ghi đè
+giải pháp: cần đảm bảo mảng chỉ chứa 1 data trả về để ngăn chặn vấn đề re-render 2 lần trong cùng 1 thời điểm
 
 
 
@@ -98,7 +103,12 @@ Hiển thị ổn định câu trả lời, không có hiện tượng nhấp nh
 Câu số 2 pause khi mất mạng nhưng cũng không hiển thị câu trả lời, không bị mất"			
 
 *dev đánh giá
-
+nguyên nhân:
+-Khi mất mạng đột ngột, trạng thái streaming bị gián đoạn và khiến chatbot không xử lý yêu cầu ngay khi mạng được khôi phục.
+-State là 1 biến lưu lại mảng dữ liệu câu hỏi và câu trả lời tương ứng cập nhật chưa đúng vì khi kết nối mạng được khôi phục sẽ chạy 2 api chat-message
+giải pháp:
+-Thêm cơ chế lắng nghe sự thay đổi kết nối mạng và tự động retry ngay khi mạng được khôi phục thay
+-Nếu user stop để gửi câu hỏi mới thì nên cancel api trước đó đang pending
 
 6	"Nhắn tin câu số 1
 -> Rút mạng"	
@@ -120,6 +130,15 @@ TH2: Không hiển thị nút pause sau 20s
 Ổn định nút pause, hiển thị sau 20s bất kể trường hợp gì và có thể sử dụng được			
 
 *dev đánh giá
+nguyên nhân:
+-đối với câu hỏi đầu tiên, còn tùy thuộc vào api gửi lên nó trả về conversation_id nhanh or chậm, nếu nó tạo ra được 1 conversation trước khi tắt mạng thì conversation đó được xem là đã tồn tại, nên sau 20s kiếm tra
+nếu đã có conversation thì cho phép hiển thị nút pause, tuy nhiên nếu click ko pause được là do chưa kịp lấy task_id, và api stop gửi lên lúc mất mạng nên ko can thiệp được
+-còn case 2 ko hiển thị nút pause sau 20s thì do lúc gửi câu hỏi và tắt mạng thì conversation chưa được tạo ra kịp, nghĩa là cuộc hội thoại này chưa tồn tại, lúc cắm lại mạng sẽ mất khoảng time nào đó để connect đến 
+backend chờ nó trả về response của api đang pending đó, lúc này nó mới tạo ra được conversation
+giải pháp:
+-vẫn phải đảm bảo là conversation được tạo ra và tồn tại
+-Nếu đang mất mạng thì dù stop hay ko cũng ko cho user nhập câu hỏi mới, toast 1 thông báo chờ câu trả lời trước đó, để khi có mạng lại thì api của câu trước sẽ trả về response và hiển thị ra đúng thì trong quá trình 
+trả ra response có thể để nó genearate ra hết câu trả lời or ấn pause giữa chừng để nhập câu hỏi mới
 
 TH3		"Hiển thị nút pause sau 20s nhưng không nhấn dừng được
 -> Cắm lại mạng
@@ -132,7 +151,10 @@ TH3		"Hiển thị nút pause sau 20s nhưng không nhấn dừng được
 Phải nhấn được nút pause và dừng được phản hồi từ câu 1 -> đánh giá nút pause đang hoạt động chưa ổn định				
 
 *dev đánh giá
-
+nguyên nhân:
+-vấn đề ở câu 1 hiển thị pause sau 20s mà ko nhấn dừng được nguyên nhân như TH1 của mục 6
+-khi bật lại mạng và hỏi câu 2 thì do câu 1 dc gen ra nên được xem là đã tồn tại 1 conversation rồi nên sau 20s được pause bình thường
+-nút pause còn phải phụ thuộc vào việc conversation đã tồn tại hay chưa
 
 8	"Test từ Câu hỏi thứ 2 trở đi
 
@@ -153,3 +175,10 @@ Sau khi out ra vào lại thì lại hiển thị câu trả lời 2 và 3 nhưn
 Ổn định hiển thị câu trả lời, không có tình trạng ẩn/hiện câu trả lời + câu hỏi"		
 
 *dev đánh giá
+nguyên nhân:
+-cũng gần tương tự ở các case trên, vấn đề pause mà muốn dừng luôn ko hiển thị thì phải đảm bảo được có task_id, tuy nhiên khi hỏi câu 2 và tắt network, lúc stop thì api stop nó ko hoạt đông vì ko có task_id
+truyền vào và api stop cũng ko run do mất mạng, pause chỉ là cho phép nhập thêm câu hỏi khác chứ lúc này chưa tác động đến câu trả lời mà api của câu hỏi thứ 2 sẽ trả ra sau khi có mạng
+-lúc có mạng và hỏi câu 3 thì có thể lúc này api trả về response của câu hỏi 2, nó lưu vào mảng data, sau đó re-render khiến cho câu hỏi 3 bị mất đi, sau 1 khoảng time api câu hỏi 3 lại trả về và mảng data lại
+lưu response mới đó nên lại re-render thêm lần nữa dẫn đến nó lại chèn vị trí để hiển thị cho câu 3
+
+time handle: ước lượng 2-3 ngày
